@@ -4,14 +4,14 @@
 
 QUIC                                                    A. Ferrieux, Ed.
 Internet-Draft                                               Orange Labs
-Intended status: Informational                          I. Lubashev, Ed.
-Expires: 17 February 2024                            Akamai Technologies
+Intended status: Standards Track                        I. Lubashev, Ed.
+Expires: 18 April 2024                               Akamai Technologies
                                                         G. Fioccola, Ed.
                                                      Huawei Technologies
-                                                          16 August 2023
+                                                         16 October 2023
 
 
-        Application of Explicit Measurement Techniques for QUIC
+Application of Explicit Measurement Techniques for QUIC Troubleshooting
               draft-mdt-quic-explicit-measurements-latest
 
 Abstract
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 February 2024.
+   This Internet-Draft will expire on 18 April 2024.
 
 Copyright Notice
 
@@ -71,43 +71,38 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-     1.1.  Motivation for Passive On-Path Loss Observation
-     1.2.  On-Path Loss Observation
-     1.3.  On-Path Loss Signaling in QUIC v1
-     1.4.  Recommended Use of the Signals
-   2.  Notational Conventions
-   3.  Loss Bits
-     3.1.  Setting the sQuare Signal Bit on Outgoing Packets
-       3.1.1.  Q Run Length Selection
-     3.2.  Setting the Loss Event Bit on Outgoing Packets
-   4.  Using Loss Bits for Passive Loss Measurement
-     4.1.  End-To-End Loss
-     4.2.  Upstream Loss
-     4.3.  Correlating End-to-End and Upstream Loss
-     4.4.  Downstream Loss
-     4.5.  Observer Loss
-   5.  QUIC v1 Implementation
-     5.1.  Transport Parameter
-     5.2.  Short Packet Header
-     5.3.  Header Protection
-   6.  Ossification Considerations
-   7.  Security Considerations
-     7.1.  Optimistic ACK Attack
-   8.  Privacy Considerations
-   9.  IANA Considerations
-   10. Change Log
-     10.1.  Since version 02
-     10.2.  Since version 01
-     10.3.  Since version 00
-   11. Acknowledgments
-   12. References
-     12.1.  Normative References
-     12.2.  Informative References
+     1.1.  Notational Conventions
+   2.  On-Path RTT Observation
+   3.  On-Path Loss Observation
+     3.1.  On-Path Loss Signaling in QUIC
+     3.2.  Recommended Use of the Signals
+   4.  Loss Bits
+     4.1.  Setting the sQuare Signal Bit on Outgoing Packets
+       4.1.1.  Q Run Length Selection
+     4.2.  Setting the Loss Event Bit on Outgoing Packets
+   5.  Using Loss Bits for Passive Loss Measurement
+     5.1.  End-To-End Loss
+     5.2.  Upstream Loss
+     5.3.  Correlating End-to-End and Upstream Loss
+     5.4.  Downstream Loss
+     5.5.  Observer Loss
+   6.  Implementation
+     6.1.  Transport Parameter
+     6.2.  Short Packet Header
+     6.3.  Header Protection
+   7.  Ossification Considerations
+   8.  Security Considerations
+     8.1.  Optimistic ACK Attack
+   9.  Privacy Considerations
+   10. IANA Considerations
+   11. Change Log
+   12. Acknowledgments
+   13. References
+     13.1.  Normative References
+     13.2.  Informative References
    Authors' Addresses
 
 1.  Introduction
-
-1.1.  Motivation for Passive On-Path Loss Observation
 
    Packet loss is a hard and pervasive problem of day-to-day network
    operation.  Proactively detecting, measuring, and locating it is
@@ -130,40 +125,65 @@ Table of Contents
    increasing every year.  It is imperative to measure packet loss
    experienced by QUIC users directly.
 
-1.2.  On-Path Loss Observation
+   The Alternate-Marking method [AltMark] defines a consolidated method
+   to perform packet loss, delay, and jitter measurements on live
+   traffic.  However, as noted in [EXPLICIT-MEASUREMENTS], applying
+   [AltMark] to end-to-end transport-layer connections is not easy
+   because packet identification and marking by network nodes is
+   prevented when QUIC encrypted transport-layer header is being used.
+
+   This document aims to define Explicit Host-to-Network Flow
+   Measurement Techniques in order to enable Packet Loss measurements in
+   addition to Round-Trip Time (RTT) measurements, that are specifically
+   designed for QUIC protocol.
+
+1.1.  Notational Conventions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in [RFC2119].
+
+2.  On-Path RTT Observation
+
+   [QUIC-TRANSPORT] already introduces an explicit per-flow transport-
+   layer signal for hybrid measurement of RTT.  This signal consists of
+   a Spin bit that toggles once per RTT.
+
+3.  On-Path Loss Observation
 
    There are three sources of loss that network operators need to
    observe to guarantee high QoS:
 
    *  _upstream loss_ - loss between the sender and the observation
-      point (Section 4.2)
+      point (Section 5.2)
 
    *  _downstream loss_ - loss between the observation point and the
-      destination (Section 4.4)
+      destination (Section 5.4)
 
    *  _observer loss_ - loss by the observer itself that does not cause
-      downstream loss (Section 4.5)
+      downstream loss (Section 5.5)
 
    The upstream and downstream loss together constitute _end-to-end
-   loss_ (Section 4.1).
+   loss_ (Section 5.1).
 
-1.3.  On-Path Loss Signaling in QUIC v1
+3.1.  On-Path Loss Signaling in QUIC
 
-   [LOSSBITS] presents the generic technique.  Two explicit loss bits in
-   the clear portion of QUIC v1 short headers are used to signal packet
-   loss to on-path network devices.  The explicit loss bits are the
-   "sQuare signal" bit (Q) and the "Loss event" bit (L) (see Section 3.1
-   and Section 3.2) . This approach follows the recommendations of
-   [RFC8558] that recommends explicit path signals.  The current
-   document adapts the technique proposed in [LOSSBITS] for QUIC by
-   using reserved bits in QUIC v1 short header.
+   [EXPLICIT-MEASUREMENTS] introduces different techniques for using two
+   explicit loss bits in the clear portion of QUIC v1 short headers in
+   order to signal packet loss to on-path network devices.  The explicit
+   loss bits considered in this document are the "sQuare signal" bit (Q)
+   and the "Loss event" bit (L) (see Section 4.1 and Section 4.2) . This
+   approach follows the recommendations of [RFC8558] that recommends
+   explicit path signals.  The current document adapts the technique
+   proposed in [LOSSBITS] for QUIC by using reserved bits in QUIC v1
+   short header.
 
    While the exploitation of only Q can help in measuring the _upstream
    loss_ and only L can help in measuring the _end-to-end loss_, both
    are required to detect and measure the other types of losses
    (_downstream loss_ and _observer loss_).
 
-1.4.  Recommended Use of the Signals
+3.2.  Recommended Use of the Signals
 
    The loss signal is not designed for use in automated control of the
    network in environments where loss bits are set by untrusted hosts,
@@ -172,13 +192,7 @@ Table of Contents
    multiple flows and raising operator alarms if aggregate statistics
    indicate a potential problem.
 
-2.  Notational Conventions
-
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-   document are to be interpreted as described in [RFC2119].
-
-3.  Loss Bits
+4.  Loss Bits
 
    The draft introduces two bits that are to be present in packets with
    a short header.  Therefore, only loss of short header packets is
@@ -186,10 +200,10 @@ Table of Contents
    packets, it is referring only to packets with short headers.
 
    *  Q: The "sQuare signal" bit is toggled every N outgoing packets, as
-      explained below in Section 3.1.
+      explained below in Section 4.1.
 
    *  L: The "Loss event" bit is set to 0 or 1 according to the
-      Unreported Loss counter, as explained below in Section 3.2.
+      Unreported Loss counter, as explained below in Section 4.2.
 
    Each endpoint maintains appropriate counters independently and
    separately for each connection 4-tuple and Destination Connection ID.
@@ -198,31 +212,34 @@ Table of Contents
    "QUIC connection", however, refers to connections in the traditional
    QUIC sense.
 
-3.1.  Setting the sQuare Signal Bit on Outgoing Packets
+4.1.  Setting the sQuare Signal Bit on Outgoing Packets
 
-   The sQuare Value is initialized to the Initial Q Value (0 or 1) and
-   is reflected in the Q bit of every outgoing packet.  The sQuare value
-   is inverted after sending every N packets (a Q run).  Hence, Q Period
-   is 2*N.  The Q bit represents "packet color" as defined by [RFC8321].
+   The sQuare bit (Q bit) takes its name from the square wave generated
+   by its signal.  This method is based on the Alternate-Marking method
+   [AltMark].  The sQuare Value is initialized to the Initial Q Value (0
+   or 1) and is reflected in the Q bit of every outgoing packet.  The
+   sQuare value is inverted after sending every N packets (a Q run).
+   Hence, Q Period is 2*N.  The Q bit represents "packet color" as
+   defined by [RFC8321].
 
    Observation points can estimate upstream losses by counting the
    number of packets during one period of the square signal, as
-   described in Section 4.
+   described in Section 5.
 
-3.1.1.  Q Run Length Selection
+4.1.1.  Q Run Length Selection
 
    The sender is expected to choose N (Q run length) based on the
    expected amount of loss and reordering on the path.  The choice of N
    strikes a compromise -- the observation could become too unreliable
    in case of packet reordering and/or severe loss if N is too small,
    while short connections may not yield a useful upstream loss
-   measurement if N is too large (see Section 4.2).
+   measurement if N is too large (see Section 5.2).
 
    The value of N MUST be at least 64 and be a power of 2.  This
    requirement allows an Observer to infer the Q run length by observing
    one period of the square signal.  It also allows the Observer to
    identify flows that set the loss bits to arbitrary values (see
-   Section 6).
+   Section 7).
 
    If the sender does not have sufficient information to make an
    informed decision about Q run length, the sender SHOULD use N=64,
@@ -235,13 +252,14 @@ Table of Contents
    The sender can change the value of N during a QUIC connection by
    switching to a new Destination Connection ID, if one is available.
 
-3.2.  Setting the Loss Event Bit on Outgoing Packets
+4.2.  Setting the Loss Event Bit on Outgoing Packets
 
-   The Unreported Loss counter is initialized to 0, and the L bit of
-   every outgoing packet indicates whether the Unreported Loss counter
-   is positive (L=1 if the counter is positive, and L=0 otherwise).  The
-   value of the Unreported Loss counter is decremented every time a
-   packet with L=1 is sent.
+   The Loss Event bit uses the Unreported Loss counter maintained by the
+   QUIC protocol.  The Unreported Loss counter is initialized to 0, and
+   the L bit of every outgoing packet indicates whether the Unreported
+   Loss counter is positive (L=1 if the counter is positive, and L=0
+   otherwise).  The value of the Unreported Loss counter is decremented
+   every time a packet with L=1 is sent.
 
    The value of the Unreported Loss counter is incremented for every
    packet that the protocol declares lost, using QUIC's existing loss
@@ -256,11 +274,11 @@ Table of Contents
 
    Observation points can estimate the end-to-end loss, as determined by
    the upstream endpoint, by counting packets in this direction with the
-   L bit equal to 1, as described in Section 4.
+   L bit equal to 1, as described in Section 5.
 
-4.  Using Loss Bits for Passive Loss Measurement
+5.  Using Loss Bits for Passive Loss Measurement
 
-4.1.  End-To-End Loss
+5.1.  End-To-End Loss
 
    The Loss Event bit allows an observer to calculate the end-to-end
    loss rate by counting packets with the L bit value of 0 and 1 for a
@@ -274,7 +292,7 @@ Table of Contents
    sufficient delay before sending packets with L=1 that they have a
    greater chance of arriving at the observer.
 
-4.2.  Upstream Loss
+5.2.  Upstream Loss
 
    Blocks of N (Q run length) consecutive packets are sent with the same
    value of the Q bit, followed by another block of N packets with an
@@ -290,7 +308,7 @@ Table of Contents
    The observer needs to differentiate packets as belonging to different
    connections, since they use independent counters.
 
-4.3.  Correlating End-to-End and Upstream Loss
+5.3.  Correlating End-to-End and Upstream Loss
 
    Upstream loss is calculated by observing packets that did not suffer
    the upstream loss.  End-to-end loss, however, is calculated by
@@ -313,20 +331,20 @@ Table of Contents
    4 times the typical RTT for the observed connections.
 
    If the calculated upstream loss rate exceeds the end-to-end loss rate
-   calculated in Section 4.1, then either the Q run length is too short
+   calculated in Section 5.1, then either the Q run length is too short
    for the amount of packet reordering or there is observer loss,
-   described in Section 4.5.  If this happens, the observer SHOULD
+   described in Section 5.5.  If this happens, the observer SHOULD
    adjust the calculated upstream loss rate to match end-to-end loss
    rate.
 
-4.4.  Downstream Loss
+5.4.  Downstream Loss
 
    Because downstream loss affects only those packets that did not
    suffer upstream loss, the end-to-end loss rate (e) relates to the
    upstream loss rate (u) and downstream loss rate (d) as
    (1-u)(1-d)=1-e.  Hence, d=(e-u)/(1-u).
 
-4.5.  Observer Loss
+5.5.  Observer Loss
 
    A typical deployment of a passive observation system includes a
    network tap device that mirrors network packets of interest to a
@@ -336,23 +354,23 @@ Table of Contents
 
    Observer loss affects upstream loss rate measurement, since it causes
    the observer to account for fewer packets in a block of identical Q
-   bit values (see Section 4.2).  The end-to-end loss rate measurement,
+   bit values (see Section 5.2).  The end-to-end loss rate measurement,
    however, is unaffected by the observer loss, since it is a
    measurement of the fraction of packets with the set L bit value, and
-   the observer loss would affect all packets equally (see Section 4.1).
+   the observer loss would affect all packets equally (see Section 5.1).
 
    The need to adjust the upstream loss rate down to match end-to-end
-   loss rate as described in Section 4.3 is a strong indication of the
+   loss rate as described in Section 5.3 is a strong indication of the
    observer loss, whose magnitude is between the amount of such
    adjustment and the entirety of the upstream loss measured in
-   Section 4.2.  Alternatively, a high apparent upstream loss rate could
+   Section 5.2.  Alternatively, a high apparent upstream loss rate could
    be an indication of significant reordering, possibly due to packets
    belonging to a single connection being multiplexed over several
    upstream paths with different latency characteristics.
 
-5.  QUIC v1 Implementation
+6.  Implementation
 
-5.1.  Transport Parameter
+6.1.  Transport Parameter
 
    The use of the loss bits is negotiated using a transport parameter:
 
@@ -370,7 +388,7 @@ Table of Contents
    A client MUST NOT use remembered value of loss_bits for 0-RTT
    connections.
 
-5.2.  Short Packet Header
+6.2.  Short Packet Header
 
    When sending loss bits has been negotiated, the reserved (R) bits are
    replaced by the loss (Q and L) bits in the short packet header (see
@@ -382,12 +400,12 @@ Table of Contents
       +-+-+-+-+-+-+-+-+
 
    sQuare Signal Bit (Q):  The fourth most significant bit (0x10) is the
-      sQuare signal bit, set as described in Section 3.1.
+      sQuare signal bit, set as described in Section 4.1.
 
    Loss Event Bit (L):  The fifth most significant bit (0x08) is the
-      Loss event bit, set as described in Section 3.2.
+      Loss event bit, set as described in Section 4.2.
 
-5.3.  Header Protection
+6.3.  Header Protection
 
    Unlike the reserved (R) bits, the loss (Q and L) bits are not
    protected.  When sending loss bits has been negotiated, the first
@@ -402,7 +420,7 @@ Table of Contents
          # Short header: 3 bits masked
          packet[0] ^= mask[0] & 0x07
 
-6.  Ossification Considerations
+7.  Ossification Considerations
 
    Accurate loss reporting signal is not critical for the operation QUIC
    protocol, though its presence in a sufficient number of connections
@@ -420,7 +438,14 @@ Table of Contents
    of reordering can be fixed using this method.  Latency spin bit
    signal edge can be used for the same purpose.
 
-7.  Security Considerations
+8.  Security Considerations
+
+   The measurements described in this document do not imply new packets
+   injected into the network causing potential harm to the network
+   itself and to data traffic.  The measurements could be harmed by an
+   attacker altering the marking of the packets or injecting artificial
+   traffic.  Authentication techniques can be used where appropriate to
+   guard against these traffic attacks.
 
    In the absence of packet loss, the Q bit signal does not provide any
    information that cannot be observed by simply counting packets
@@ -430,7 +455,7 @@ Table of Contents
    response.  Hence, loss bits do not provide a viable new mechanism to
    attack QUIC data integrity and secrecy.
 
-7.1.  Optimistic ACK Attack
+8.1.  Optimistic ACK Attack
 
    A defense against an Optimistic ACK Attack [QUIC-TRANSPORT] involves
    a sender randomly skipping packet numbers to detect a receiver
@@ -452,7 +477,7 @@ Table of Contents
    packets.  For example, skipping a single packet number will invert
    the sQuare signal one outgoing packet sooner.
 
-8.  Privacy Considerations
+9.  Privacy Considerations
 
    To minimize unintentional exposure of information, loss bits provide
    an explicit loss signal -- a preferred way to share information per
@@ -477,10 +502,10 @@ Table of Contents
 
    Implementations MUST allow administrators of clients and servers to
    disable loss reporting either globally or per QUIC connection.
-   Additionally, as described in Section 6, loss reporting MUST be
+   Additionally, as described in Section 7, loss reporting MUST be
    disabled for a certain fraction of all QUIC connections.
 
-9.  IANA Considerations
+10.  IANA Considerations
 
    This document registers a new value in the QUIC Transport Parameter
    Registry:
@@ -494,49 +519,23 @@ Table of Contents
    bits.  An endpoint that advertises this transport parameter with
    value 1 can also send loss bits.
 
-10.  Change Log
+11.  Change Log
 
-10.1.  Since version 02
+   TBD
 
-   *  Add QUIC v1 negotiation using transport parameter, use short
-      header reserved bits as loss bits, header protection change, IANA
-      Considerations
+12.  Acknowledgments
 
-   *  Add Optimistic ACK Attack Defense to Security Considerations
+   The following people directly contributed key ideas that shaped this
+   draft: Kazuho Oku, Christian Huitema.
 
-   *  Expand Privacy Considerations
+13.  References
 
-   *  Clarify Q run length selection
+13.1.  Normative References
 
-10.2.  Since version 01
-
-   *  Add reference to RFC7713
-
-10.3.  Since version 00
-
-   *  Rewrote to base this draft on [LOSSBITS]
-
-11.  Acknowledgments
-
-   The sQuare signal bit was originally specified by Kazuho Oku in early
-   proposals for loss measurement and is an instance of the "alternate
-   marking" as defined in [RFC8321].
-
-   Many thanks to Christian Huitema for pointing out the interaction of
-   Q bit and Optimistic ACK Attack defence.
-
-12.  References
-
-12.1.  Normative References
-
-   [EXPLICIT-MEASUREMENTS]
-              Cociglio, M., Ferrieux, A., Fioccola, G., Lubashev, I.,
-              Bulgarella, F., Nilo, M., Hamchaoui, I., and R. Sisto,
-              "Explicit Host-to-Network Flow Measurements Techniques",
-              Work in Progress, Internet-Draft, draft-ietf-ippm-
-              explicit-flow-measurements-07, 10 July 2023,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-ippm-
-              explicit-flow-measurements-07>.
+   [AltMark]  Fioccola, G., Ed., Cociglio, M., Mirsky, G., Mizrahi, T.,
+              and T. Zhou, "Alternate-Marking Method", RFC 9341,
+              DOI 10.17487/RFC9341, December 2022,
+              <https://www.rfc-editor.org/rfc/rfc9341>.
 
    [QUIC-TLS] Thomson, M., Ed. and S. Turner, Ed., "Using TLS to Secure
               QUIC", RFC 9001, DOI 10.17487/RFC9001, May 2021,
@@ -568,12 +567,21 @@ Table of Contents
               DOI 10.17487/RFC9065, July 2021,
               <https://www.rfc-editor.org/rfc/rfc9065>.
 
-12.2.  Informative References
+13.2.  Informative References
 
    [DATAGRAM] Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
               Datagram Extension to QUIC", RFC 9221,
               DOI 10.17487/RFC9221, March 2022,
               <https://www.rfc-editor.org/rfc/rfc9221>.
+
+   [EXPLICIT-MEASUREMENTS]
+              Cociglio, M., Ferrieux, A., Fioccola, G., Lubashev, I.,
+              Bulgarella, F., Nilo, M., Hamchaoui, I., and R. Sisto,
+              "Explicit Host-to-Network Flow Measurements Techniques",
+              Work in Progress, Internet-Draft, draft-ietf-ippm-
+              explicit-flow-measurements-07, 10 July 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-ippm-
+              explicit-flow-measurements-07>.
 
    [LOSSBITS] Ferrieux, A., Hamchaoui, I., Lubashev, I., and D.
               Tikhonov, "Packet Loss Signaling for Encrypted Protocols",

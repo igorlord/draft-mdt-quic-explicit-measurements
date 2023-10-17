@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-15T00:55:27.864735+00:00",
+  "timestamp": "2023-10-17T00:52:14.243861+00:00",
   "repo": "igorlord/draft-mdt-quic-explicit-measurements",
   "labels": [
     {
@@ -50,5 +50,143 @@
     }
   ],
   "issues": [],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOKHccDc5c6yGp",
+      "title": "Update draft-mdt-quic-explicit-measurements.md",
+      "url": "https://github.com/igorlord/draft-mdt-quic-explicit-measurements/pull/1",
+      "state": "MERGED",
+      "author": "giuseppefioccola",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-16T15:45:49Z",
+      "updatedAt": "2023-10-16T18:19:05Z",
+      "baseRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "baseRefName": "main",
+      "baseRefOid": "af3a4c00dbca7a3129a816a0a74c7dc3c3aa6524",
+      "headRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "headRefName": "giuseppefioccola-patch-1",
+      "headRefOid": "ff5109305a04f7c3fd7e40439a030fa3ea674f69",
+      "closedAt": "2023-10-16T18:19:04Z",
+      "mergedAt": "2023-10-16T18:19:04Z",
+      "mergedBy": "igorlord",
+      "mergeCommit": {
+        "oid": "8dc6ee86ca927876967285bbac8707deb1ae8978"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKHccDc5kLQjJ",
+          "commit": {
+            "abbreviatedOid": "ff51093"
+          },
+          "author": "igorlord",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-10-16T18:09:04Z",
+          "updatedAt": "2023-10-16T18:09:04Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOKHccDc5kLUMd",
+          "commit": {
+            "abbreviatedOid": "ff51093"
+          },
+          "author": "igorlord",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-16T18:13:02Z",
+          "updatedAt": "2023-10-16T18:13:02Z",
+          "comments": [
+            {
+              "originalPosition": 46,
+              "body": "This document defines an extension to QUIC to enable Packet loss measurements.   It is not defining a technique.",
+              "createdAt": "2023-10-16T18:13:02Z",
+              "updatedAt": "2023-10-16T18:13:02Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKHccDc5kLWoW",
+          "commit": {
+            "abbreviatedOid": "ff51093"
+          },
+          "author": "igorlord",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-16T18:17:03Z",
+          "updatedAt": "2023-10-16T18:17:04Z",
+          "comments": [
+            {
+              "originalPosition": 137,
+              "body": "> Authentication techniques can be used where appropriate to guard against these traffic attacks.\r\n\r\nThis is likely to raise eyebrows due to imprecision. This is a guide to implementers -- they will want to know the details of at least one technique they can use.",
+              "createdAt": "2023-10-16T18:17:03Z",
+              "updatedAt": "2023-10-16T18:17:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKHccDc5kLXPO",
+          "commit": {
+            "abbreviatedOid": "ff51093"
+          },
+          "author": "igorlord",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "I'll create a PR to address some of my comments.",
+          "createdAt": "2023-10-16T18:18:48Z",
+          "updatedAt": "2023-10-16T18:18:48Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOKHccDc5c8Rl8",
+      "title": "Igor/quick update",
+      "url": "https://github.com/igorlord/draft-mdt-quic-explicit-measurements/pull/2",
+      "state": "OPEN",
+      "author": "igorlord",
+      "authorAssociation": "OWNER",
+      "assignees": [
+        "giuseppefioccola"
+      ],
+      "labels": [],
+      "body": "A few editorial changes (and white space normalization).",
+      "createdAt": "2023-10-16T20:03:16Z",
+      "updatedAt": "2023-10-16T20:21:35Z",
+      "baseRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "baseRefName": "main",
+      "baseRefOid": "8dc6ee86ca927876967285bbac8707deb1ae8978",
+      "headRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "headRefName": "igor/quick-update",
+      "headRefOid": "ac4db9c2a75cf5b4ae3f559d96d0d95815263ff4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKHccDc5kMGjx",
+          "commit": {
+            "abbreviatedOid": "ac4db9c"
+          },
+          "author": "ferrieux",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Two nits, otherwise okay for me ;)",
+          "createdAt": "2023-10-16T20:21:34Z",
+          "updatedAt": "2023-10-16T20:21:34Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
 }

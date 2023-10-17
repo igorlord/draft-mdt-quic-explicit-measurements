@@ -5,10 +5,10 @@
 QUIC                                                    A. Ferrieux, Ed.
 Internet-Draft                                               Orange Labs
 Intended status: Standards Track                        I. Lubashev, Ed.
-Expires: 18 April 2024                               Akamai Technologies
+Expires: 19 April 2024                               Akamai Technologies
                                                         G. Fioccola, Ed.
                                                      Huawei Technologies
-                                                         16 October 2023
+                                                         17 October 2023
 
 
 Application of Explicit Measurement Techniques for QUIC Troubleshooting
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 April 2024.
+   This Internet-Draft will expire on 19 April 2024.
 
 Copyright Notice
 
@@ -110,14 +110,12 @@ Table of Contents
    end-to-end throughput issues.  To this effect, in a TCP-dominated
    world, network operators have been heavily relying on information
    present in the clear in TCP headers: sequence and acknowledgment
-   numbers, and SACK when enabled.  These allow for quantitative
+   numbers, and SACKs when enabled.  These allow for quantitative
    estimation of packet loss by passive on-path observation.
-   Additionally, the lossy segment (upstream or downstream from the
-   observation point) can be quickly identified by moving the passive
-   observer around.
 
-   With QUIC, the equivalent transport headers are encrypted and passive
-   packet loss observation is not possible, as described in [RFC9065].
+   With QUIC, the equivalent transport headers are encrypted, and
+   passive packet loss observation is not possible, as described in
+   [RFC9065].
 
    Measuring TCP loss between similar endpoints cannot be relied upon to
    evaluate QUIC loss.  QUIC could be routed by the network differently
@@ -132,10 +130,9 @@ Table of Contents
    because packet identification and marking by network nodes is
    prevented when QUIC encrypted transport-layer header is being used.
 
-   This document aims to define Explicit Host-to-Network Flow
-   Measurement Techniques in order to enable Packet Loss measurements in
-   addition to Round-Trip Time (RTT) measurements, that are specifically
-   designed for QUIC protocol.
+   This document defines an extension to the QUIC protocol to enable
+   packet loss measurements using Explicit Host-to-Network Flow
+   Measurement Techniques defined in [EXPLICIT-MEASUREMENTS].
 
 1.1.  Notational Conventions
 
@@ -168,11 +165,11 @@ Table of Contents
 
 3.1.  On-Path Loss Signaling in QUIC
 
-   [EXPLICIT-MEASUREMENTS] introduces different techniques for using two
-   explicit loss bits in the clear portion of QUIC v1 short headers in
-   order to signal packet loss to on-path network devices.  The explicit
-   loss bits considered in this document are the "sQuare signal" bit (Q)
-   and the "Loss event" bit (L) (see Section 4.1 and Section 4.2) . This
+   [EXPLICIT-MEASUREMENTS] introduces several techniques for using
+   explicit loss bits in the clear portion of transport protocol headers
+   to signal packet loss to on-path network devices.  The explicit loss
+   bits used in this document are the "sQuare signal" bit (Q) and the
+   "Loss event" bit (L) (see Section 4.1 and Section 4.2).  This
    approach follows the recommendations of [RFC8558] that recommends
    explicit path signals.  The current document adapts the technique
    proposed in [LOSSBITS] for QUIC by using reserved bits in QUIC v1
@@ -186,7 +183,7 @@ Table of Contents
 3.2.  Recommended Use of the Signals
 
    The loss signal is not designed for use in automated control of the
-   network in environments where loss bits are set by untrusted hosts,
+   network in environments where loss bits are set by untrusted hosts.
    Instead, the signal is to be used for troubleshooting individual
    flows and for monitoring the network by aggregating information from
    multiple flows and raising operator alarms if aggregate statistics
@@ -243,7 +240,7 @@ Table of Contents
 
    If the sender does not have sufficient information to make an
    informed decision about Q run length, the sender SHOULD use N=64,
-   since this value has been extensively tried in large-scale field
+   since this value has been extensively tested in large-scale field
    tests and yielded good results.  Alternatively, the sender MAY also
    choose a random N for each connection, increasing the chances of
    using a Q run length that gives the best signal for some connections.
@@ -422,9 +419,9 @@ Table of Contents
 
 7.  Ossification Considerations
 
-   Accurate loss reporting signal is not critical for the operation QUIC
-   protocol, though its presence in a sufficient number of connections
-   is important for the operation of networks.
+   Accurate loss reporting signal is not critical for the operation of
+   the QUIC protocol, though its presence in a sufficient number of
+   connections is important for the operation of networks.
 
    The loss bits are amenable to "greasing" described in [RFC8701] and
    MUST be greased.  The greasing should be accomplished similarly to
@@ -440,18 +437,19 @@ Table of Contents
 
 8.  Security Considerations
 
-   The measurements described in this document do not imply new packets
-   injected into the network causing potential harm to the network
-   itself and to data traffic.  The measurements could be harmed by an
-   attacker altering the marking of the packets or injecting artificial
-   traffic.  Authentication techniques can be used where appropriate to
-   guard against these traffic attacks.
+   The measurements described in this document do not involve new
+   packets injected into the network causing potential harm to the
+   network itself and to data traffic.  The measurements could be harmed
+   by a malicious endpoint misreporting losses or an attacker injecting
+   artificial traffic.  In the environments where such attacks are
+   possible and cannot be identified by on-path observers, loss signal
+   should not be used for automated control of the network.
 
    In the absence of packet loss, the Q bit signal does not provide any
    information that cannot be observed by simply counting packets
    transiting a network path.  The L bit signal discloses internal state
    of the protocol's loss detection machinery, but this state can often
-   be gleamed by timing packets and observing congestion controller
+   be gleaned by timing packets and observing congestion controller
    response.  Hence, loss bits do not provide a viable new mechanism to
    attack QUIC data integrity and secrecy.
 

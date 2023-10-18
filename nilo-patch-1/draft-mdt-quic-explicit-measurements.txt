@@ -506,8 +506,8 @@ Table of Contents
    Implementations MUST allow administrators of clients and servers to
    disable the enable_network_troubleshooting parameter advertisement
    either globally or per QUIC connection.  Additionally, as described
-   in Section 7, loss reporting MUST be disabled for a certain fraction
-   of all QUIC connections.
+   in Section 7, network troubleshooting MUST be disabled for a certain
+   fraction of all QUIC connections.
 
 10.  IANA Considerations
 

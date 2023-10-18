@@ -473,8 +473,8 @@ signal.
 
 Implementations MUST allow administrators of clients and servers to disable
 the enable_network_troubleshooting parameter advertisement either globally or
-per QUIC connection. Additionally, as described in {{ossification}}, loss
-reporting MUST be disabled for a certain fraction of all QUIC connections.
+per QUIC connection. Additionally, as described in {{ossification}}, network
+troubleshooting MUST be disabled for a certain fraction of all QUIC connections.
 
 
 # IANA Considerations

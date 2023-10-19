@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-17T00:52:14.243861+00:00",
+  "timestamp": "2023-10-19T00:51:53.401589+00:00",
   "repo": "igorlord/draft-mdt-quic-explicit-measurements",
   "labels": [
     {
@@ -151,7 +151,7 @@
       "id": "PR_kwDOKHccDc5c8Rl8",
       "title": "Igor/quick update",
       "url": "https://github.com/igorlord/draft-mdt-quic-explicit-measurements/pull/2",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "igorlord",
       "authorAssociation": "OWNER",
       "assignees": [
@@ -160,18 +160,28 @@
       "labels": [],
       "body": "A few editorial changes (and white space normalization).",
       "createdAt": "2023-10-16T20:03:16Z",
-      "updatedAt": "2023-10-16T20:21:35Z",
+      "updatedAt": "2023-10-17T03:03:39Z",
       "baseRepository": "igorlord/draft-mdt-quic-explicit-measurements",
       "baseRefName": "main",
       "baseRefOid": "8dc6ee86ca927876967285bbac8707deb1ae8978",
       "headRepository": "igorlord/draft-mdt-quic-explicit-measurements",
       "headRefName": "igor/quick-update",
       "headRefOid": "ac4db9c2a75cf5b4ae3f559d96d0d95815263ff4",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2023-10-17T03:03:38Z",
+      "mergedAt": "2023-10-17T03:03:38Z",
+      "mergedBy": "igorlord",
+      "mergeCommit": {
+        "oid": "72b7bc63b03ab39ce50b473fbb10088e9fa3826f"
+      },
+      "comments": [
+        {
+          "author": "igorlord",
+          "authorAssociation": "OWNER",
+          "body": "> Two nits, otherwise okay for me ;)\r\n\r\nThank you for fixing these.",
+          "createdAt": "2023-10-17T03:02:58Z",
+          "updatedAt": "2023-10-17T03:02:58Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOKHccDc5kMGjx",
@@ -185,6 +195,91 @@
           "createdAt": "2023-10-16T20:21:34Z",
           "updatedAt": "2023-10-16T20:21:34Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOKHccDc5dJvx_",
+      "title": "Update to draft-mdt-quic-explicit-measurements",
+      "url": "https://github.com/igorlord/draft-mdt-quic-explicit-measurements/pull/3",
+      "state": "OPEN",
+      "author": "massimon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Our proposal for the implementation section and other minor changes.",
+      "createdAt": "2023-10-18T14:51:26Z",
+      "updatedAt": "2023-10-18T21:45:39Z",
+      "baseRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "baseRefName": "main",
+      "baseRefOid": "72b7bc63b03ab39ce50b473fbb10088e9fa3826f",
+      "headRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "headRefName": "nilo-patch-1",
+      "headRefOid": "95205ffa3ae87ee316328e79e4ea8218376fb2a6",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKHccDc5kdVeS",
+          "commit": {
+            "abbreviatedOid": "d6f9501"
+          },
+          "author": "ferrieux",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-18T15:27:02Z",
+          "updatedAt": "2023-10-18T15:27:03Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "So you're proposing to switch from \"opt-out\" (where any endpoint can select to disable the feature) top \"opt-in\" (where any endpoint can \"force\" the other to enable it) ?\r\nIf yes, it is an uphill battle, as the Spin Bit only made it under the condition of opt-out.",
+              "createdAt": "2023-10-18T15:27:03Z",
+              "updatedAt": "2023-10-18T15:27:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKHccDc5kgT_B",
+          "commit": {
+            "abbreviatedOid": "95205ff"
+          },
+          "author": "igorlord",
+          "authorAssociation": "OWNER",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2023-10-18T21:35:10Z",
+          "updatedAt": "2023-10-18T21:45:39Z",
+          "comments": [
+            {
+              "originalPosition": 51,
+              "body": "Moreover, it is not implementable, and the MUST is not verifiable.\r\nIf a particular implementation does not support this extension, how can the other endpoint expect a change of behavior from an unsupporting implementation?",
+              "createdAt": "2023-10-18T21:35:10Z",
+              "updatedAt": "2023-10-18T21:46:23Z"
+            },
+            {
+              "originalPosition": 56,
+              "body": "Do you mean here that the endpoint sending `enable_network_troubleshooting` parameter SHOULD (why not MUST?) enable QUIC latency spin bit?  Or you do mean that when `enable_network_troubleshooting` parameter is used by both endpoints then endpoints SHOULD/MUST enable QUIC latency spin bit?",
+              "createdAt": "2023-10-18T21:40:07Z",
+              "updatedAt": "2023-10-18T21:45:39Z"
+            },
+            {
+              "originalPosition": 111,
+              "body": "Same as above -- an endpoint cannot unilaterally force another endpoint to support a protocol extension, especially since that extension may not even be implemented by the protocol.",
+              "createdAt": "2023-10-18T21:43:17Z",
+              "updatedAt": "2023-10-18T21:45:39Z"
+            },
+            {
+              "originalPosition": 39,
+              "body": "I like this change a lot.  It is very generic and purposeful.  As discussed below, however, we _may_ still want to maintain an ability to say: \"I will allow you to use reserved bits for this purpose, but I will not send my own loss information to you.\"",
+              "createdAt": "2023-10-18T21:43:51Z",
+              "updatedAt": "2023-10-18T21:45:39Z"
+            }
+          ]
         }
       ]
     }

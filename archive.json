@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-19T00:51:53.401589+00:00",
+  "timestamp": "2023-10-22T00:55:15.036520+00:00",
   "repo": "igorlord/draft-mdt-quic-explicit-measurements",
   "labels": [
     {
@@ -210,7 +210,7 @@
       "labels": [],
       "body": "Our proposal for the implementation section and other minor changes.",
       "createdAt": "2023-10-18T14:51:26Z",
-      "updatedAt": "2023-10-18T21:45:39Z",
+      "updatedAt": "2023-10-19T07:46:41Z",
       "baseRepository": "igorlord/draft-mdt-quic-explicit-measurements",
       "baseRefName": "main",
       "baseRefOid": "72b7bc63b03ab39ce50b473fbb10088e9fa3826f",
@@ -278,6 +278,26 @@
               "body": "I like this change a lot.  It is very generic and purposeful.  As discussed below, however, we _may_ still want to maintain an ability to say: \"I will allow you to use reserved bits for this purpose, but I will not send my own loss information to you.\"",
               "createdAt": "2023-10-18T21:43:51Z",
               "updatedAt": "2023-10-18T21:45:39Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKHccDc5kjOZV",
+          "commit": {
+            "abbreviatedOid": "95205ff"
+          },
+          "author": "ferrieux",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-19T07:46:41Z",
+          "updatedAt": "2023-10-19T07:46:41Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "+1: this asymmetric (but now bilaterally agreed) mode is what makes (e.g.) the QL deployable at large scale: the server asks the permission to send, many clients grant it, but they don't have any need to implement more than the TP-accept code.",
+              "createdAt": "2023-10-19T07:46:41Z",
+              "updatedAt": "2023-10-19T07:46:41Z"
             }
           ]
         }

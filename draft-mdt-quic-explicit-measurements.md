@@ -42,7 +42,38 @@ author:
     name: Giuseppe Fioccola
     org: Huawei Technologies
     email: giuseppe.fioccola@huawei.com
-
+  -
+    ins: M. Nilo
+    name: Massimo Nilo
+    org: Telecom Italia - TIM
+    street: Via Reiss Romoli, 274
+    city: Torino
+    code: 10148
+    country: Italy
+    email: massimo.nilo@telecomitalia.it
+  -
+    ins: F. Bulgarella
+    name: Fabio Bulgarella
+    org: Telecom Italia - TIM
+    street: Via Reiss Romoli, 274
+    city: Torino
+    code: 10148
+    country: Italy
+    email: fabio.bulgarella@guest.telecomitalia.it
+  -
+    ins: F. Milan
+    name: Fabrizio Milan
+    org: Telecom Italia - TIM
+    street: Via Reiss Romoli, 274
+    city: Torino
+    code: 10148
+    country: Italy
+    email: fabrizio.milan@telecomitalia.it
+  -
+    ins: M. Cociglio
+    name: Mauro Cociglio
+    country: Italy
+    email: mauro.cociglio@outlook.com
 normative:
   QUIC-TRANSPORT: RFC9000
   QUIC-TLS: RFC9001
@@ -270,7 +301,7 @@ relative to the upstream loss.
 
 The connection RTT can sometimes be estimated by timing protocol handshake
 messages. This RTT estimate can be greatly improved by observing a dedicated
-protocol mechanism for conveying RTT information, such as the Latency Spin bit
+protocol mechanism for conveying RTT information, such as the latency Spin bit
 of {{QUIC-TRANSPORT}}.
 
 Whenever the observer needs to perform a computation that uses both upstream and
@@ -322,20 +353,25 @@ upstream paths with different latency characteristics.
 
 The use of the loss bits is negotiated using a transport parameter:
 
-loss_bits (0x1057):
+network_troubleshooting (0x1057):
 
-: The loss bits transport parameter is an integer value, encoded as a
-  variable-length integer, that can be set to 0 or 1 indicating the level of
-  loss bits support.
+: The network_troubleshooting transport parameter is an integer value, encoded
+  as a variable-length integer, that can be set to 0 or 1 indicating the level
+  of loss bits support.
 
-When loss_bits parameter is present, the peer is allowed to use reserved bits in
-the short packet header as loss bits if the peer sends loss_bits=1.
+When network_troubleshooting parameter is present, the peer is allowed to use
+reserved bits in the short packet header as loss bits if the peer sends
+network_troubleshooting=1.
 
-When loss_bits is set to 1, the sender will use reserved bits as loss bits if
-the peer includes the loss_bits transport parameter.
+When network_troubleshooting is set to 1, the sender will use reserved bits as
+loss bits if the peer includes the network_troubleshooting transport parameter.
 
-A client MUST NOT use remembered value of loss_bits for 0-RTT connections.
+A client MUST NOT use remembered value of network_troubleshooting for 0-RTT
+connections.
 
+In this first implementation the peer can optionally use the reserved bits for
+troubleshooting, but in future implementations, the peer may be required to
+mandatorily use the reserved bits.
 
 ## Short Packet Header  {#shortheader}
 
@@ -384,15 +420,15 @@ protocol, though its presence in a sufficient number of connections is important
 for the operation of networks.
 
 The loss bits are amenable to "greasing" described in {{!RFC8701}} and MUST be
-greased. The greasing should be accomplished similarly to the Latency Spin bit
+greased. The greasing should be accomplished similarly to the latency Spin bit
 greasing in {{QUIC-TRANSPORT}}. Namely, implementations MUST NOT include
-loss_bits transport parameter for a random selection of at least one in every 16
-QUIC connections.
+network_troubleshooting transport parameter for a random selection of at least
+one in every 16 QUIC connections.
 
 It is possible to observe packet reordering near the edge of the square signal.
 A middle box might observe the signal and try to fix packet reordering that it
 can identify, though only a small fraction of reordering can be fixed using this
-method. Latency spin bit signal edge can be used for the same purpose.
+method. Latency Spin bit signal edge can be used for the same purpose.
 
 
 # Security Considerations
@@ -464,11 +500,12 @@ This document registers a new value in the QUIC Transport Parameter Registry:
 
 Value: 0x1057 (if this document is approved)
 
-Parameter Name: loss_bits
+Parameter Name: network_troubleshooting
 
-Specification: Indicates that the endpoint supports loss bits. An endpoint that
-   advertises this transport parameter can receive loss bits. An endpoint that
-   advertises this transport parameter with value 1 can also send loss bits.
+Specification: Indicates that the endpoint supports network_troubleshooting.
+   An endpoint that advertises this transport parameter can receive loss bits.
+   An endpoint that advertises this transport parameter with value 1 can also
+   send loss bits.
 
 
 # Change Log

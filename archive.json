@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-22T00:55:15.036520+00:00",
+  "timestamp": "2023-10-24T00:51:43.400933+00:00",
   "repo": "igorlord/draft-mdt-quic-explicit-measurements",
   "labels": [
     {
@@ -302,6 +302,34 @@
           ]
         }
       ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOKHccDc5di532",
+      "title": "Update draft-mdt-quic-explicit-measurements.md",
+      "url": "https://github.com/igorlord/draft-mdt-quic-explicit-measurements/pull/4",
+      "state": "MERGED",
+      "author": "massimon",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-23T15:29:56Z",
+      "updatedAt": "2023-10-23T15:59:57Z",
+      "baseRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "baseRefName": "main",
+      "baseRefOid": "72b7bc63b03ab39ce50b473fbb10088e9fa3826f",
+      "headRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "headRefName": "nilo-patch-2",
+      "headRefOid": "7a206a690c9e41b6955a38cf74dff380c6caf94f",
+      "closedAt": "2023-10-23T15:59:56Z",
+      "mergedAt": "2023-10-23T15:59:56Z",
+      "mergedBy": "giuseppefioccola",
+      "mergeCommit": {
+        "oid": "cea3f306c0c794f9fb41d126de3e0bf2467a1ea0"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }

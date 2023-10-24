@@ -5,15 +5,17 @@
 QUIC                                                    A. Ferrieux, Ed.
 Internet-Draft                                               Orange Labs
 Intended status: Standards Track                        I. Lubashev, Ed.
-Expires: 25 April 2024                               Akamai Technologies
+Expires: 26 April 2024                               Akamai Technologies
                                                         G. Fioccola, Ed.
                                                      Huawei Technologies
+                                                            I. Hamchaoui
+                                                             Orange Labs
                                                                  M. Nilo
                                                            F. Bulgarella
                                                                 F. Milan
                                                     Telecom Italia - TIM
                                                              M. Cociglio
-                                                         23 October 2023
+                                                         24 October 2023
 
 
 Application of Explicit Measurement Techniques for QUIC Troubleshooting
@@ -57,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 April 2024.
+   This Internet-Draft will expire on 26 April 2024.
 
 Copyright Notice
 
@@ -626,6 +628,11 @@ Authors' Addresses
    Giuseppe Fioccola (editor)
    Huawei Technologies
    Email: giuseppe.fioccola@huawei.com
+
+
+   Isabelle Hamchaoui
+   Orange Labs
+   Email: isabelle.hamchaoui@orange.com
 
 
    Massimo Nilo

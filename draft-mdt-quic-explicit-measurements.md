@@ -43,6 +43,11 @@ author:
     org: Huawei Technologies
     email: giuseppe.fioccola@huawei.com
   -
+    ins: I. Hamchaoui
+    name: Isabelle Hamchaoui
+    org: Orange Labs
+    email: isabelle.hamchaoui@orange.com
+  -
     ins: M. Nilo
     name: Massimo Nilo
     org: Telecom Italia - TIM

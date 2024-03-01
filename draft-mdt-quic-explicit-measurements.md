@@ -66,15 +66,6 @@ author:
     country: Italy
     email: fabio.bulgarella@guest.telecomitalia.it
   -
-    ins: F. Milan
-    name: Fabrizio Milan
-    org: Telecom Italia - TIM
-    street: Via Reiss Romoli, 274
-    city: Torino
-    code: 10148
-    country: Italy
-    email: fabrizio.milan@telecomitalia.it
-  -
     ins: M. Cociglio
     name: Mauro Cociglio
     country: Italy
@@ -83,10 +74,10 @@ normative:
   QUIC-TRANSPORT: RFC9000
   QUIC-TLS: RFC9001
   AltMark: RFC9341
+  EXPLICIT-MEASUREMENTS: RFC9506
 
 informative:
   DATAGRAM: RFC9221
-  EXPLICIT-MEASUREMENTS: I-D.ietf-ippm-explicit-flow-measurements
   LOSSBITS: I-D.ferrieuxhamchaoui-tsvwg-lossbits
 
 --- abstract
@@ -374,9 +365,9 @@ loss bits if the peer includes the network_troubleshooting transport parameter.
 A client MUST NOT use remembered value of network_troubleshooting for 0-RTT
 connections.
 
-In this first implementation the peer can optionally use the reserved bits for
-troubleshooting, but in future implementations, the peer may be required to
-mandatorily use the reserved bits.
+Except for the cases outlined in {{ossification}}, it is RECOMMENDED for the
+server to consistently include the network_troubleshooting parameter. This
+enable clients to utilize loss bits at their discretion.
 
 ## Short Packet Header  {#shortheader}
 

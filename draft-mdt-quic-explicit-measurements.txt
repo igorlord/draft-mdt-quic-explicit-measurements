@@ -5,17 +5,16 @@
 QUIC                                                    A. Ferrieux, Ed.
 Internet-Draft                                               Orange Labs
 Intended status: Standards Track                        I. Lubashev, Ed.
-Expires: 26 April 2024                               Akamai Technologies
+Expires: 5 September 2024                            Akamai Technologies
                                                         G. Fioccola, Ed.
                                                      Huawei Technologies
                                                             I. Hamchaoui
                                                              Orange Labs
                                                                  M. Nilo
                                                            F. Bulgarella
-                                                                F. Milan
                                                     Telecom Italia - TIM
                                                              M. Cociglio
-                                                         24 October 2023
+                                                            4 March 2024
 
 
 Application of Explicit Measurement Techniques for QUIC Troubleshooting
@@ -59,11 +58,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 April 2024.
+   This Internet-Draft will expire on 5 September 2024.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2024 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -394,9 +393,9 @@ Table of Contents
    A client MUST NOT use remembered value of network_troubleshooting for
    0-RTT connections.
 
-   In this first implementation the peer can optionally use the reserved
-   bits for troubleshooting, but in future implementations, the peer may
-   be required to mandatorily use the reserved bits.
+   Except for the cases outlined in Section 7, it is RECOMMENDED for the
+   server to consistently include the network_troubleshooting parameter.
+   This enable clients to utilize loss bits at their discretion.
 
 6.2.  Short Packet Header
 
@@ -549,6 +548,13 @@ Table of Contents
               DOI 10.17487/RFC9341, December 2022,
               <https://www.rfc-editor.org/rfc/rfc9341>.
 
+   [EXPLICIT-MEASUREMENTS]
+              Cociglio, M., Ferrieux, A., Fioccola, G., Lubashev, I.,
+              Bulgarella, F., Nilo, M., Hamchaoui, I., and R. Sisto,
+              "Explicit Host-to-Network Flow Measurements Techniques",
+              RFC 9506, DOI 10.17487/RFC9506, October 2023,
+              <https://www.rfc-editor.org/rfc/rfc9506>.
+
    [QUIC-TLS] Thomson, M., Ed. and S. Turner, Ed., "Using TLS to Secure
               QUIC", RFC 9001, DOI 10.17487/RFC9001, May 2021,
               <https://www.rfc-editor.org/rfc/rfc9001>.
@@ -585,15 +591,6 @@ Table of Contents
               Datagram Extension to QUIC", RFC 9221,
               DOI 10.17487/RFC9221, March 2022,
               <https://www.rfc-editor.org/rfc/rfc9221>.
-
-   [EXPLICIT-MEASUREMENTS]
-              Cociglio, M., Ferrieux, A., Fioccola, G., Lubashev, I.,
-              Bulgarella, F., Nilo, M., Hamchaoui, I., and R. Sisto,
-              "Explicit Host-to-Network Flow Measurements Techniques",
-              Work in Progress, Internet-Draft, draft-ietf-ippm-
-              explicit-flow-measurements-07, 10 July 2023,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-ippm-
-              explicit-flow-measurements-07>.
 
    [LOSSBITS] Ferrieux, A., Hamchaoui, I., Lubashev, I., and D.
               Tikhonov, "Packet Loss Signaling for Encrypted Protocols",
@@ -649,14 +646,6 @@ Authors' Addresses
    10148 Torino
    Italy
    Email: fabio.bulgarella@guest.telecomitalia.it
-
-
-   Fabrizio Milan
-   Telecom Italia - TIM
-   Via Reiss Romoli, 274
-   10148 Torino
-   Italy
-   Email: fabrizio.milan@telecomitalia.it
 
 
    Mauro Cociglio

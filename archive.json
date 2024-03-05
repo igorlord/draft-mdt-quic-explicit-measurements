@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2024-03-03T00:54:11.635573+00:00",
+  "timestamp": "2024-03-05T00:51:17.535978+00:00",
   "repo": "igorlord/draft-mdt-quic-explicit-measurements",
   "labels": [
     {
@@ -203,21 +203,21 @@
       "id": "PR_kwDOKHccDc5dJvx_",
       "title": "Update to draft-mdt-quic-explicit-measurements",
       "url": "https://github.com/igorlord/draft-mdt-quic-explicit-measurements/pull/3",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "massimon",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Our proposal for the implementation section and other minor changes.",
       "createdAt": "2023-10-18T14:51:26Z",
-      "updatedAt": "2023-10-19T07:46:41Z",
+      "updatedAt": "2024-03-04T12:11:29Z",
       "baseRepository": "igorlord/draft-mdt-quic-explicit-measurements",
       "baseRefName": "main",
       "baseRefOid": "72b7bc63b03ab39ce50b473fbb10088e9fa3826f",
       "headRepository": "igorlord/draft-mdt-quic-explicit-measurements",
       "headRefName": "nilo-patch-1",
       "headRefOid": "95205ffa3ae87ee316328e79e4ea8218376fb2a6",
-      "closedAt": null,
+      "closedAt": "2024-03-04T12:11:29Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -327,6 +327,34 @@
       "mergedBy": "giuseppefioccola",
       "mergeCommit": {
         "oid": "cea3f306c0c794f9fb41d126de3e0bf2467a1ea0"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOKHccDc5olP9b",
+      "title": "Small revision",
+      "url": "https://github.com/igorlord/draft-mdt-quic-explicit-measurements/pull/5",
+      "state": "MERGED",
+      "author": "giuseppefioccola",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2024-03-04T12:10:36Z",
+      "updatedAt": "2024-03-04T12:11:46Z",
+      "baseRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "baseRefName": "main",
+      "baseRefOid": "4b379e9576d45881d0d5358e8336d2474333d196",
+      "headRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "headRefName": "fabio-patch-1",
+      "headRefOid": "b5ba314b3366ce2e045625d3d9bf6993ba1be5c9",
+      "closedAt": "2024-03-04T12:11:45Z",
+      "mergedAt": "2024-03-04T12:11:45Z",
+      "mergedBy": "giuseppefioccola",
+      "mergeCommit": {
+        "oid": "80bec7f23cb1d942297f471ee696a997d25ed1e9"
       },
       "comments": [],
       "reviews": []

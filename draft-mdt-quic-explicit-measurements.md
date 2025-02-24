@@ -43,19 +43,11 @@ author:
     org: Huawei Technologies
     email: giuseppe.fioccola@huawei.com
   -
-    ins: I. Hamchaoui
-    name: Isabelle Hamchaoui
-    org: Orange Labs
-    email: isabelle.hamchaoui@orange.com
-  -
-    ins: M. Nilo
-    name: Massimo Nilo
-    org: Telecom Italia - TIM
-    street: Via Reiss Romoli, 274
-    city: Torino
-    code: 10148
-    country: Italy
-    email: massimo.nilo@telecomitalia.it
+    ins: M. Ihlar
+    role: editor
+    name: Marcus Ihlar
+    org: Ericsson
+    email: marcus.ihlar@ericsson.com
   -
     ins: F. Bulgarella
     name: Fabio Bulgarella
@@ -70,6 +62,21 @@ author:
     name: Mauro Cociglio
     country: Italy
     email: mauro.cociglio@outlook.com
+  -
+    ins: I. Hamchaoui
+    name: Isabelle Hamchaoui
+    org: Orange Labs
+    email: isabelle.hamchaoui@orange.com
+  -
+    ins: M. Nilo
+    name: Massimo Nilo
+    org: Telecom Italia - TIM
+    street: Via Reiss Romoli, 274
+    city: Torino
+    code: 10148
+    country: Italy
+    email: massimo.nilo@telecomitalia.it
+
 normative:
   QUIC-TRANSPORT: RFC9000
   QUIC-TLS: RFC9001
@@ -184,7 +191,7 @@ aggregate statistics indicate a potential problem.
 
 # Loss Bits
 
-The draft introduces two bits that are to be present in EMPP packets.
+The draft introduces two bits that are to be present in EFMP packets.
 
 * Q: The "sQuare signal" bit is toggled every N outgoing packets, as explained
   below in {{squarebit}}.
@@ -353,7 +360,7 @@ upstream paths with different latency characteristics.
 An EFMP packet is a QUIC long header packet that follows the QUIC invariants;
 see {{Section 5.1 of INVARIANTS}}.
 
-{{fig-EFMP-packet}} shows the format of the EMPP packet using the conventions
+{{fig-EFMP-packet}} shows the format of the EFMP packet using the conventions
 from {{Section 4 of INVARIANTS}}.
 
 ~~~ artwork

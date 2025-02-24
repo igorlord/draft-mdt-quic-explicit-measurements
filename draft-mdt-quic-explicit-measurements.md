@@ -86,7 +86,7 @@ informative:
 
 This document defines a protocol that can be used by QUIC endpoints to signal
 packet loss in a way that can be used by network devices to measure and locate
-the source of the loss. 
+the source of the loss.
 
 Discussion of this work is encouraged to happen on the QUIC IETF mailing list
 <quic@ietf.org> or on the GitHub repository which contains the draft:
@@ -120,12 +120,12 @@ transport-layer connections is not easy because packet identification and
 marking by network nodes is prevented when QUIC encrypted transport-layer header
 is being used.
 
-This document defines the Explicit Flow Measurement Protocol (EFMP) which is 
-used by QUIC endpoints to enable packet loss measurements using Explicit 
+This document defines the Explicit Flow Measurement Protocol (EFMP) which is
+used by QUIC endpoints to enable packet loss measurements using Explicit
 Host-to-Network Flow Measurement Techniques defined in {{EXPLICIT-MEASUREMENTS}}.
 
 Measurement bits are sent in dedicated EFMP packets that are coalesced with other
-QUIC packets in UDP datagrams. 
+QUIC packets in UDP datagrams.
 
 ## Notational Conventions    {#conventions}
 
@@ -163,11 +163,11 @@ bits in the clear portion of transport protocol headers to signal packet loss to
 on-path network devices. The explicit loss bits used in this document are the
 "sQuare signal" bit (Q) and the "Loss event" bit (L) (see {{squarebit}} and
 {{lossbit}}). This approach follows the recommendations of {{!RFC8558}} that
-recommends explicit path signals. 
+recommends explicit path signals.
 
-This document defines the Explicit Flow Measurement Protocol (EFMP) that takes 
-inspiration from {{TRAIN}} that uses QUIC Long Header packets that are prepended 
-to QUIC v1 or v2 packets as carriers of path signals. 
+This document defines the Explicit Flow Measurement Protocol (EFMP) that takes
+inspiration from {{TRAIN}} that uses QUIC Long Header packets that are prepended
+to QUIC v1 or v2 packets as carriers of path signals.
 
 While the exploitation of only Q can help in measuring the _upstream loss_ and
 only L can help in measuring the _end-to-end loss_, both are required to detect
@@ -184,7 +184,7 @@ aggregate statistics indicate a potential problem.
 
 # Loss Bits
 
-The draft introduces two bits that are to be present in EMPP packets. 
+The draft introduces two bits that are to be present in EMPP packets.
 
 * Q: The "sQuare signal" bit is toggled every N outgoing packets, as explained
   below in {{squarebit}}.
@@ -377,12 +377,12 @@ The most significant bit (0x80) of the packet indicates that this is a QUIC long
 header packet.  The next bit (0x40) is reserved and can be set according to
 {{!QUIC-BIT=RFC9287}}.
 
-The six least significant bits of the first octet of an EFMP packet forms the 
-EFMP payload: 
+The six least significant bits of the first octet of an EFMP packet forms the
+EFMP payload:
 
 sQuare Signal Bit (Q):
 
-: The first bit of the EFMP payload (0x20) is is the sQuare signal 
+: The first bit of the EFMP payload (0x20) is is the sQuare signal
 bit, set as described in {{squarebit}}.
 
 Loss Event Bit (L):
@@ -391,14 +391,14 @@ Loss Event Bit (L):
 
 Latency Spin Bit (S):
 
-: The third bit (0x8) is the latency spin bit. This bit is set to the value 
+: The third bit (0x8) is the latency spin bit. This bit is set to the value
 of the spin bit in the QUIC Short Header packet that follows directly after the
-EFMP packet in the same UDP datagram. 
+EFMP packet in the same UDP datagram.
 
-The three least significant bits (0x7) are reserved for future use. 
+The three least significant bits (0x7) are reserved for future use.
 
 An EFMP packet includes a Destination Connection ID field that is set to the same
-value as other packets in the same datagram; see 
+value as other packets in the same datagram; see
 {{Section 12.2 of QUIC-TRANSPORT}}.
 
 The Source Connection ID field is set to match the Source Connection ID field of
@@ -406,7 +406,7 @@ any packet that follows. If the next packet in the datagram has a short header
 ({{Section 5.2 of INVARIANTS}}), the Source Connection ID field is empty.
 
 EFMP packets are always coalesced with other QUIC packets and SHOULD be included
-as the first packet in a UDP datagram. 
+as the first packet in a UDP datagram.
 
 ## Transport Parameter  {#tp}
 
@@ -415,33 +415,33 @@ the transport parameter:
 
 efmp_supported (0xTBD):
 
-: efmp_supported transport parameter is an integer value, encoded as a 
+: efmp_supported transport parameter is an integer value, encoded as a
 variable-length integer, that can be set to 0 or 1, indicating the level of
 EFMP support. A value of 1 indicates that the endpoint is willing to send
-EFMP packets. 
+EFMP packets.
 
 A client MUST NOT use remembered value of efmp_supported for 0-RTT connections.
 
 Except for the cases outlined in {{ossification}}, it is RECOMMENDED for the
-server to consistently include the efmp_supported parameter. This enables 
+server to consistently include the efmp_supported parameter. This enables
 clients to utilize loss bits at their discretion.
 
 ## EFMP Packet Processing
 An EFMP packet is identified by the header form bit (0x80) of the first byte of
-a UDP datagram payload and the 32-bit version field with the value (0xTBD) that 
+a UDP datagram payload and the 32-bit version field with the value (0xTBD) that
 directly follows the first octet. Since the EFMP payload is part of the first
-octet, an observer does not need to process a packet beyond the version field. 
+octet, an observer does not need to process a packet beyond the version field.
 
 # Ossification Considerations  {#ossification}
 
-Accurate loss reporting is not critical for the operation of the QUIC protocol, 
+Accurate loss reporting is not critical for the operation of the QUIC protocol,
 though its presence in a sufficient number of connections is important
 for the operation of networks.
 
 The use of EFMP is amenable to "greasing" described in {{!RFC8701}} and MUST be
 greased. The greasing should be accomplished similarly to the latency Spin bit
 greasing in {{QUIC-TRANSPORT}}. Namely, implementations MUST NOT include
-efmp_supported transport parameter for a random selection of at least one in 
+efmp_supported transport parameter for a random selection of at least one in
 every 16 QUIC connections.
 
 It is possible to observe packet reordering near the edge of the square signal.
@@ -458,7 +458,7 @@ traffic. The measurements could be harmed by a malicious endpoint misreporting
 losses or an attacker injecting artificial traffic. In the environments where
 such attacks are possible and cannot be identified by on-path observers, loss
 signal should not be used for automated control of the network.
- 
+
 In the absence of packet loss, the Q bit signal does not provide any information
 that cannot be observed by simply counting packets transiting a network
 path. The L bit signal discloses internal state of the protocol's loss detection

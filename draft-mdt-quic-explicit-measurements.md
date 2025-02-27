@@ -424,8 +424,9 @@ efmp_supported (0xTBD):
 
 : efmp_supported transport parameter is an integer value, encoded as a
 variable-length integer, that can be set to 0 or 1, indicating the level of
-EFMP support. A value of 1 indicates that the endpoint is willing to send
-EFMP packets.
+EFMP support. The value of 0 indicates that the endpoint is able to receive
+EFMP packets but will not be sending any, while the value of 1 indicates
+that the endpoint is also willing to send EFMP packets.
 
 A client MUST NOT use remembered value of efmp_supported for 0-RTT connections.
 

@@ -6,9 +6,10 @@ date: {DATE}
 category: std
 
 ipr: trust200902
-area: Network Measurements
+area: Transport
 workgroup: QUIC
 keyword: Internet-Draft
+submissionType: IETF
 
 stand_alone: yes
 pi:
@@ -79,14 +80,12 @@ author:
 
 normative:
   QUIC-TRANSPORT: RFC9000
-  QUIC-TLS: RFC9001
   AltMark: RFC9341
   EXPLICIT-MEASUREMENTS: RFC9506
   INVARIANTS: RFC8999
 
 informative:
   DATAGRAM: RFC9221
-  LOSSBITS: I-D.ferrieuxhamchaoui-tsvwg-lossbits
   TRAIN: I-D.thomson-scone-train-protocol
 
 --- abstract

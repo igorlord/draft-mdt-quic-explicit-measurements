@@ -598,10 +598,6 @@ Table of Contents
               DOI 10.17487/RFC9287, August 2022,
               <https://www.rfc-editor.org/rfc/rfc9287>.
 
-   [QUIC-TLS] Thomson, M., Ed. and S. Turner, Ed., "Using TLS to Secure
-              QUIC", RFC 9001, DOI 10.17487/RFC9001, May 2021,
-              <https://www.rfc-editor.org/rfc/rfc9001>.
-
    [QUIC-TRANSPORT]
               Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", RFC 9000,
@@ -634,13 +630,6 @@ Table of Contents
               Datagram Extension to QUIC", RFC 9221,
               DOI 10.17487/RFC9221, March 2022,
               <https://www.rfc-editor.org/rfc/rfc9221>.
-
-   [LOSSBITS] Ferrieux, A., Hamchaoui, I., Lubashev, I., and D.
-              Tikhonov, "Packet Loss Signaling for Encrypted Protocols",
-              Work in Progress, Internet-Draft, draft-ferrieuxhamchaoui-
-              tsvwg-lossbits-03, 28 July 2020,
-              <https://datatracker.ietf.org/doc/html/draft-
-              ferrieuxhamchaoui-tsvwg-lossbits-03>.
 
    [RFC7713]  Mathis, M. and B. Briscoe, "Congestion Exposure (ConEx)
               Concepts, Abstract Mechanism, and Requirements", RFC 7713,

@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-30T01:06:08.228882+00:00",
+  "timestamp": "2025-03-02T01:14:49.867650+00:00",
   "repo": "igorlord/draft-mdt-quic-explicit-measurements",
   "labels": [
     {
@@ -358,6 +358,184 @@
       },
       "comments": [],
       "reviews": []
+    },
+    {
+      "number": 6,
+      "id": "PR_kwDOKHccDc6MTRss",
+      "title": "Use explicit measurement protocol packet",
+      "url": "https://github.com/igorlord/draft-mdt-quic-explicit-measurements/pull/6",
+      "state": "MERGED",
+      "author": "ihlar",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is a proposal to use explicit measurement protocol packets that are coalesced with QUIC packets in UDP datagrams, similar to what is proposed in https://datatracker.ietf.org/doc/draft-thomson-scone-train-protocol/.\r\n\r\nNote that this mechanism allows for the use of more bits, in this PR I propose that the spin bit value is copied from an inner QUIC packet to the outer measurement packet.\r\n\r\nI will likely do another pass on language and formatting, but let's discuss the merits of the general proposal first. ",
+      "createdAt": "2025-02-24T14:38:14Z",
+      "updatedAt": "2025-02-28T11:03:47Z",
+      "baseRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "baseRefName": "main",
+      "baseRefOid": "80bec7f23cb1d942297f471ee696a997d25ed1e9",
+      "headRepository": "ihlar/draft-mdt-quic-explicit-measurements",
+      "headRefName": "patch-1",
+      "headRefOid": "d0c749f121d3cb2c729664e521ba33c54f210685",
+      "closedAt": "2025-02-28T11:03:46Z",
+      "mergedAt": "2025-02-28T11:03:46Z",
+      "mergedBy": "giuseppefioccola",
+      "mergeCommit": {
+        "oid": "8f652105fff682ac019f3430b2c1e18a5bfb5d33"
+      },
+      "comments": [
+        {
+          "author": "ihlar",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Good comments, we might want to open issues for a few of these. \r\n\r\n> (1) is there \"room\" in the long-header EFMP datagram for integrity protection ? If not, we need to acknowledge the fact that we trust all network elements on the path to \"play fair\", by not polluting (nor bleaching) the signal... \r\n\r\nI think there are several ways one could do integrity protection of the bits, but it'd likely require some more space. \r\nFirst of all, we need to consider the threat model, since any integrity protection would be validated by endpoints alone. \r\nSince it's only 6 bits we're concerned with here a simple solution could be to simply replicate the bits in a QUIC frame sent within the crypto envelope of an \"inner\" QUIC packet. \r\n\r\n> (2) since there are a few spare bits, what about enriching the Spin Bit with the VEB (Valid Edge Bit) invented by Piet De Vaere (then PhD student of Brian Trammel, who might remember ;-). The result from Piet's work is that the VEB hugely improves the Spin Bit's reliability in the face of loss and reordering. \r\n\r\nI absolutely think we should consider using the additional bits, rather than letting them be spare. \r\n\r\n> (3) talking about spare bits, why stop at just one byte, given the overheaded of the version number and optional Cids ? Indeed, if you can insert two extra 32-bit words, you can use them to carry Loss Counters (the integral of Q and L) instead of sending Loss Bits (unary form). This, like the VEB, would render the Q+L measurement superiorly resilient to network problems. What do you think ?\r\n\r\nWe need to be a bit careful here. Yes we can definitely create a more powerful signal, but every piece of overhead matter. The location of the 32 bit words would not be at a fixed offset, so processing becomes a bit more expensive. We'd now have additional data to consider for the integrity protection as well (if we determine it to be necessary). OTH, if the counters do not need to be present in each packet it might be a more acceptable tradeoff.  \r\n",
+          "createdAt": "2025-02-25T13:00:07Z",
+          "updatedAt": "2025-02-25T13:00:07Z"
+        },
+        {
+          "author": "igorlord",
+          "authorAssociation": "OWNER",
+          "body": "> > (1) is there \"room\" in the long-header EFMP datagram for integrity protection ? If not, we need to acknowledge the fact that we trust all network elements on the path to \"play fair\", by not polluting (nor bleaching) the signal...\r\n> \r\n> I think there are several ways one could do integrity protection of the bits, but it'd likely require some more space. First of all, we need to consider the threat model, since any integrity protection would be validated by endpoints alone. Since it's only 6 bits we're concerned with here a simple solution could be to simply replicate the bits in a QUIC frame sent within the crypto envelope of an \"inner\" QUIC packet.\r\n\r\nIntegrity protection here is tricky.  The threat model is someone who is able to inject packets into the network flow or, worse, modify in-flight packets.  While end-to-end cryptographic protection is possible, observers do not have the keys, so I am not sure how an observer is able to detect a tampered packet or a packet manufactured by a third party.\r\n\r\nSince QUIC wants to be able to protect against attackers who are only able to inject packets but are unable to alter or drop packets, QUIC endpoints will simply drop packets that fail cryptographic validation.  So by manufacturing fake EFMP packets, the 3rd party attacker can mislead an observer while leaving the actual QUIC flow undisturbed.",
+          "createdAt": "2025-02-25T14:31:09Z",
+          "updatedAt": "2025-02-25T14:32:29Z"
+        },
+        {
+          "author": "ferrieux",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> \r\n> Integrity protection here is tricky. The threat model is someone who is able to inject packets into the network flow or, worse, modify in-flight packets. While end-to-end cryptographic protection is possible, observers do not have the keys, so I am not sure how an observer is able to detect a tampered packet or a packet manufactured by a third party.\r\n\r\nIntegrity protection is not encryption, so the observers can be supposed to have the (public) key that permits verification. Only the sender (server) has the private key allowing to generate valid signatures. And it may publish the associated public key through DNS for example.\r\n\r\n> Since QUIC wants to be able to protect against attackers who are only able to inject packets but are unable to alter or drop packets, QUIC endpoints will simply drop packets that fail cryptographic validation. So by manufacturing fake EFMP packets, the 3rd party attacker can mislead an observer while leaving the actual QUIC flow undisturbed.\r\n\r\nYes. I have no worries about QUIC's robustness in that matter. Only *our* signal is a bit weakened if anybody can tamper with it.\r\n\r\nAlso, as QUIC is innocuous to stray packets, let me re-propose what I already suggested: just insert standalone packets (instead of datagrams \"glued\" before real QUIC ones, as is proposed here)  in the same 5-tuple. These packets may just superficially resemble QUIC (e.g. the first byte) so that it's not too easy for nasty firewalls to drop them, but no need to abide by the rest of the QUIC ritual (like VN or CID), just our payload and a signature. And no, I'm not taking the Spin Bit aboard as (1) it is already present in QUIC, and (2) needs bidirectional dance that the QL signal doesn't, and would be tricky to implement as our packets are *meant* to be handled as garbage by the receiver's QUIC stack. \r\n\r\nStill not interested ?\r\n\r\n",
+          "createdAt": "2025-02-25T15:23:45Z",
+          "updatedAt": "2025-02-25T15:24:46Z"
+        },
+        {
+          "author": "igorlord",
+          "authorAssociation": "OWNER",
+          "body": "> the observers can be supposed to have the (public) key that permits verification\r\n\r\nThis is rather hard to deploy generally across Internet, but this could be possible to do within a controlled environment (like TI handsets having a private key that TI observer equipment knows a public key for). Controlled environments might be less suseptable to tampering, though. Generic DNS distribution may be hard -- the observer might not know SNI for the traffic, and SNI identifies just the server endpoint anyway.\r\n\r\n> just insert standalone packets (instead of datagrams \"glued\" before real QUIC ones, as is proposed here) in the same 5-tuple. These packets may just superficially resemble QUIC (e.g. the first byte) so that it's not too easy for nasty firewalls to drop them\r\n\r\nIf observers can identify these packets, so can nasty firewalls. It may actually be harder to \"unglue\" the special datagrams than to drop \"garbage\" packets.",
+          "createdAt": "2025-02-25T16:02:02Z",
+          "updatedAt": "2025-02-25T16:02:02Z"
+        },
+        {
+          "author": "ferrieux",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> > the observers can be supposed to have the (public) key that permits verification\r\n> \r\n> This is rather hard to deploy generally across Internet, but this could be possible to do within a controlled environment (like TI handsets having a private key that TI observer equipment knows a public key for). Controlled environments might be less suseptable to tampering, though. Generic DNS distribution may be hard -- the observer might not know SNI for the traffic, and SNI identifies just the server endpoint anyway.\r\n\r\nHonestly, you know fairly well from our field experiment that the download direction is the most important for troubleshooting; so only the server's key matters, not the handset's. Also, if the IP-FQDN is indeed tricky,  the server can publish its pubkey directly under https://IP . Or even in-band, as an addendum to one EFMP packet out of (say) 100 .\r\n\r\n> \r\n> > just insert standalone packets (instead of datagrams \"glued\" before real QUIC ones, as is proposed here) in the same 5-tuple. These packets may just superficially resemble QUIC (e.g. the first byte) so that it's not too easy for nasty firewalls to drop them\r\n> \r\n> If observers can identify these packets, so can nasty firewalls. It may actually be harder to \"unglue\" the special datagrams than to drop \"garbage\" packets.\r\n\r\nMy suggestion was not to improve the stray-dropping issue; instead, it was about taking advantage of QUIC's robustness to alien-crypto contents. This is indeed liberating as it allows for much more bits.\r\n\r\n",
+          "createdAt": "2025-02-25T16:50:14Z",
+          "updatedAt": "2025-02-25T16:50:14Z"
+        },
+        {
+          "author": "giuseppefioccola",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I propose to merge this PR and submit the new revision of the draft.\r\nWe can leave the open points (e.g. integrity protection, use of more bits,...) for the next version.",
+          "createdAt": "2025-02-27T15:06:51Z",
+          "updatedAt": "2025-02-27T15:06:51Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKHccDc6dN296",
+          "commit": {
+            "abbreviatedOid": "3a336ad"
+          },
+          "author": "igorlord",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-24T16:00:16Z",
+          "updatedAt": "2025-02-24T16:00:17Z",
+          "comments": [
+            {
+              "originalPosition": 182,
+              "body": "willing to **receive**?",
+              "createdAt": "2025-02-24T16:00:17Z",
+              "updatedAt": "2025-02-24T16:00:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKHccDc6dOHLo",
+          "commit": {
+            "abbreviatedOid": "d015d70"
+          },
+          "author": "ferrieux",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-24T16:23:24Z",
+          "updatedAt": "2025-02-24T16:23:25Z",
+          "comments": [
+            {
+              "originalPosition": 69,
+              "body": "Typo EMPP->EFMP",
+              "createdAt": "2025-02-24T16:23:24Z",
+              "updatedAt": "2025-02-24T16:23:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKHccDc6dOSHQ",
+          "commit": {
+            "abbreviatedOid": "3a336ad"
+          },
+          "author": "ferrieux",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Nice !\r\nA few tangents:\r\n(1) is there \"room\" in the long-header EFMP datagram for integrity protection ? If not, we need to acknowledge the fact that we trust all network elements on the path to \"play fair\", by not polluting (nor bleaching) the signal...\r\n(2) since there are a few spare bits, what about enriching the Spin Bit with the VEB (Valid Edge Bit) invented by Piet De Vaere (then PhD student of Brian Trammel, who might remember ;-). The result from Piet's work is that the VEB hugely improves the Spin Bit's reliability in the face of loss and reordering.\r\n(3) talking about spare bits, why stop at just one byte, given the overheaded of the version number and optional Cids ? Indeed, if you can insert two extra 32-bit words, you can use them to carry Loss Counters (the integral of Q and L) instead of sending Loss Bits (unary form). This, like the VEB, would render the Q+L measurement superiorly resilient to network problems. \r\nWhat do you think ?",
+          "createdAt": "2025-02-24T16:38:05Z",
+          "updatedAt": "2025-02-24T16:38:05Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOKHccDc6dYxUg",
+          "commit": {
+            "abbreviatedOid": "3a336ad"
+          },
+          "author": "ihlar",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-02-25T10:22:25Z",
+          "updatedAt": "2025-02-25T10:22:25Z",
+          "comments": [
+            {
+              "originalPosition": 182,
+              "body": "I put send here explicitly since I saw that in the IANA considerations section you had the following text: \r\n\"Specification: Indicates that the endpoint supports network_troubleshooting. An endpoint that advertises this transport parameter can receive loss bits. An endpoint that advertises this transport parameter with value 1 can also send loss bits.\"",
+              "createdAt": "2025-02-25T10:22:25Z",
+              "updatedAt": "2025-02-25T10:22:25Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKHccDc6dbdfz",
+          "commit": {
+            "abbreviatedOid": "5625d1c"
+          },
+          "author": "igorlord",
+          "authorAssociation": "OWNER",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2025-02-25T14:16:43Z",
+          "updatedAt": "2025-02-25T14:16:52Z",
+          "comments": [
+            {
+              "originalPosition": 182,
+              "body": "IANA considerations section aside, this section describes the `efmp_supported` TP, and so it should describe it fully.  I would say something like:\r\n\r\n> : efmp_supported transport parameter is an integer value, encoded as a\r\n> variable-length integer, that can be set to 0 or 1, indicating the level of\r\n> EFMP support. The value of 0 indicates that the endpoint is able to receive\r\n> EFMP packets but will not be sending any, while the value of 1 indicates\r\n> that the endpoint is also willing to send EFMP packets.",
+              "createdAt": "2025-02-25T14:16:43Z",
+              "updatedAt": "2025-02-25T14:37:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKHccDc6d1K1o",
+          "commit": {
+            "abbreviatedOid": "d0c749f"
+          },
+          "author": "igorlord",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-02-27T14:26:51Z",
+          "updatedAt": "2025-02-27T14:26:51Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }

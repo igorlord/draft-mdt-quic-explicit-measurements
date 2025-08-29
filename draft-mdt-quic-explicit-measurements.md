@@ -86,7 +86,7 @@ normative:
 
 informative:
   DATAGRAM: RFC9221
-  TRAIN: I-D.thomson-scone-train-protocol
+  SCONE: I-D.ietf-scone-protocol
 
 --- abstract
 
@@ -172,7 +172,7 @@ on-path network devices. The explicit loss bits used in this document are the
 recommends explicit path signals.
 
 This document defines the Explicit Flow Measurement Protocol (EFMP) that takes
-inspiration from {{TRAIN}} that uses QUIC Long Header packets that are prepended
+inspiration from {{SCONE}} that uses QUIC Long Header packets that are prepended
 to QUIC v1 or v2 packets as carriers of path signals.
 
 While the exploitation of only Q can help in measuring the _upstream loss_ and

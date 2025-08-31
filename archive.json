@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-28T01:15:08.359149+00:00",
+  "timestamp": "2025-08-31T01:19:55.322622+00:00",
   "repo": "igorlord/draft-mdt-quic-explicit-measurements",
   "labels": [
     {
@@ -533,6 +533,46 @@
           "body": "",
           "createdAt": "2025-02-27T14:26:51Z",
           "updatedAt": "2025-02-27T14:26:51Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 7,
+      "id": "PR_kwDOKHccDc6l8qvD",
+      "title": "Update draft-mdt-quic-explicit-measurements.md",
+      "url": "https://github.com/igorlord/draft-mdt-quic-explicit-measurements/pull/7",
+      "state": "OPEN",
+      "author": "giuseppefioccola",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-08-29T08:49:00Z",
+      "updatedAt": "2025-08-30T06:06:51Z",
+      "baseRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "baseRefName": "main",
+      "baseRefOid": "572a3bd7fe93724fc46abce0e00f2d760e2d7aa9",
+      "headRepository": "igorlord/draft-mdt-quic-explicit-measurements",
+      "headRefName": "giuseppefioccola-patch-1",
+      "headRefOid": "cbd7aa4ad3ad8727c48edbe4324729b996cd2577",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKHccDc68__-B",
+          "commit": {
+            "abbreviatedOid": "cbd7aa4"
+          },
+          "author": "ferrieux",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-08-30T06:06:51Z",
+          "updatedAt": "2025-08-30T06:06:51Z",
           "comments": []
         }
       ]

@@ -5,7 +5,7 @@
 QUIC                                                    A. Ferrieux, Ed.
 Internet-Draft                                               Orange Labs
 Intended status: Standards Track                        I. Lubashev, Ed.
-Expires: 1 September 2025                            Akamai Technologies
+Expires: 5 March 2026                                Akamai Technologies
                                                         G. Fioccola, Ed.
                                                      Huawei Technologies
                                                            M. Ihlar, Ed.
@@ -18,7 +18,7 @@ Expires: 1 September 2025                            Akamai Technologies
                                                              Orange Labs
                                                                  M. Nilo
                                                     Telecom Italia - TIM
-                                                        28 February 2025
+                                                        1 September 2025
 
 
 Application of Explicit Measurement Techniques for QUIC Troubleshooting
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 September 2025.
+   This Internet-Draft will expire on 5 March 2026.
 
 Copyright Notice
 
@@ -188,7 +188,7 @@ Table of Contents
    explicit path signals.
 
    This document defines the Explicit Flow Measurement Protocol (EFMP)
-   that takes inspiration from [TRAIN] that uses QUIC Long Header
+   that takes inspiration from [SCONE] that uses QUIC Long Header
    packets that are prepended to QUIC v1 or v2 packets as carriers of
    path signals.
 
@@ -642,12 +642,12 @@ Table of Contents
               Performance Monitoring", RFC 8321, DOI 10.17487/RFC8321,
               January 2018, <https://www.rfc-editor.org/rfc/rfc8321>.
 
-   [TRAIN]    Thomson, M., Huitema, C., and K. Oku, "Transparent Rate
-              Adaptation Indications for Networks (TRAIN) Protocol",
-              Work in Progress, Internet-Draft, draft-thomson-scone-
-              train-protocol-00, 14 October 2024,
-              <https://datatracker.ietf.org/doc/html/draft-thomson-
-              scone-train-protocol-00>.
+   [SCONE]    Thomson, M., Huitema, C., Oku, K., Joras, M., and L. M.
+              Ihlar, "Standard Communication with Network Elements
+              (SCONE) Protocol", Work in Progress, Internet-Draft,
+              draft-ietf-scone-protocol-02, 7 July 2025,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-scone-
+              protocol-02>.
 
 Authors' Addresses
 

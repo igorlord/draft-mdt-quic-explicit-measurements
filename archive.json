@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-31T01:19:55.322622+00:00",
+  "timestamp": "2025-09-02T01:16:28.601147+00:00",
   "repo": "igorlord/draft-mdt-quic-explicit-measurements",
   "labels": [
     {
@@ -542,24 +542,26 @@
       "id": "PR_kwDOKHccDc6l8qvD",
       "title": "Update draft-mdt-quic-explicit-measurements.md",
       "url": "https://github.com/igorlord/draft-mdt-quic-explicit-measurements/pull/7",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "giuseppefioccola",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-08-29T08:49:00Z",
-      "updatedAt": "2025-08-30T06:06:51Z",
+      "updatedAt": "2025-09-01T09:29:41Z",
       "baseRepository": "igorlord/draft-mdt-quic-explicit-measurements",
       "baseRefName": "main",
       "baseRefOid": "572a3bd7fe93724fc46abce0e00f2d760e2d7aa9",
       "headRepository": "igorlord/draft-mdt-quic-explicit-measurements",
       "headRefName": "giuseppefioccola-patch-1",
       "headRefOid": "cbd7aa4ad3ad8727c48edbe4324729b996cd2577",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-01T09:29:40Z",
+      "mergedAt": "2025-09-01T09:29:39Z",
+      "mergedBy": "giuseppefioccola",
+      "mergeCommit": {
+        "oid": "beae0ca8e8acffba0e277a1cfdad6d58ff0fb83d"
+      },
       "comments": [],
       "reviews": [
         {

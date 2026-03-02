@@ -5,7 +5,7 @@
 QUIC                                                    A. Ferrieux, Ed.
 Internet-Draft                                               Orange Labs
 Intended status: Standards Track                        I. Lubashev, Ed.
-Expires: 5 March 2026                                Akamai Technologies
+Expires: 3 September 2026                            Akamai Technologies
                                                         G. Fioccola, Ed.
                                                      Huawei Technologies
                                                            M. Ihlar, Ed.
@@ -14,11 +14,11 @@ Expires: 5 March 2026                                Akamai Technologies
                                                     Telecom Italia - TIM
                                                              M. Cociglio
                                                                         
+                                                                 M. Nilo
+                                                                FiberCop
                                                             I. Hamchaoui
                                                              Orange Labs
-                                                                 M. Nilo
-                                                    Telecom Italia - TIM
-                                                        1 September 2025
+                                                            2 March 2026
 
 
 Application of Explicit Measurement Techniques for QUIC Troubleshooting
@@ -62,11 +62,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 March 2026.
+   This Internet-Draft will expire on 3 September 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -105,11 +105,12 @@ Table of Contents
      8.1.  Optimistic ACK Attack
    9.  Privacy Considerations
    10. IANA Considerations
-   11. Change Log
+   11. Contributors
    12. Acknowledgments
-   13. References
-     13.1.  Normative References
-     13.2.  Informative References
+   13. Change Log
+   14. References
+     14.1.  Normative References
+     14.2.  Informative References
    Authors' Addresses
 
 1.  Introduction
@@ -564,7 +565,7 @@ Table of Contents
    parameter can EFMP packets.  An endpoint that advertises this
    transport parameter with value 1 can also send EFMP packets.
 
-11.  Change Log
+11.  Contributors
 
    TBD
 
@@ -573,9 +574,13 @@ Table of Contents
    The following people directly contributed key ideas that shaped this
    draft: Kazuho Oku, Christian Huitema.
 
-13.  References
+13.  Change Log
 
-13.1.  Normative References
+   TBD
+
+14.  References
+
+14.1.  Normative References
 
    [AltMark]  Fioccola, G., Ed., Cociglio, M., Mirsky, G., Mizrahi, T.,
               and T. Zhou, "Alternate-Marking Method", RFC 9341,
@@ -624,7 +629,7 @@ Table of Contents
               DOI 10.17487/RFC9065, July 2021,
               <https://www.rfc-editor.org/rfc/rfc9065>.
 
-13.2.  Informative References
+14.2.  Informative References
 
    [DATAGRAM] Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
               Datagram Extension to QUIC", RFC 9221,
@@ -645,9 +650,9 @@ Table of Contents
    [SCONE]    Thomson, M., Huitema, C., Oku, K., Joras, M., and L. M.
               Ihlar, "Standard Communication with Network Elements
               (SCONE) Protocol", Work in Progress, Internet-Draft,
-              draft-ietf-scone-protocol-02, 7 July 2025,
+              draft-ietf-scone-protocol-04, 14 December 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-scone-
-              protocol-02>.
+              protocol-04>.
 
 Authors' Addresses
 
@@ -673,25 +678,18 @@ Authors' Addresses
 
    Fabio Bulgarella
    Telecom Italia - TIM
-   Via Reiss Romoli, 274
-   10148 Torino
-   Italy
    Email: fabio.bulgarella@guest.telecomitalia.it
 
 
    Mauro Cociglio
-   Italy
    Email: mauro.cociglio@outlook.com
+
+
+   Massimo Nilo
+   FiberCop
+   Email: massimo.nilo@fibercop.com
 
 
    Isabelle Hamchaoui
    Orange Labs
    Email: isabelle.hamchaoui@orange.com
-
-
-   Massimo Nilo
-   Telecom Italia - TIM
-   Via Reiss Romoli, 274
-   10148 Torino
-   Italy
-   Email: massimo.nilo@telecomitalia.it

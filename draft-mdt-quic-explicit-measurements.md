@@ -53,30 +53,21 @@ author:
     ins: F. Bulgarella
     name: Fabio Bulgarella
     org: Telecom Italia - TIM
-    street: Via Reiss Romoli, 274
-    city: Torino
-    code: 10148
-    country: Italy
     email: fabio.bulgarella@guest.telecomitalia.it
   -
     ins: M. Cociglio
     name: Mauro Cociglio
-    country: Italy
     email: mauro.cociglio@outlook.com
+  -
+    ins: M. Nilo
+    name: Massimo Nilo
+    org: FiberCop
+    email: massimo.nilo@fibercop.com
   -
     ins: I. Hamchaoui
     name: Isabelle Hamchaoui
     org: Orange Labs
     email: isabelle.hamchaoui@orange.com
-  -
-    ins: M. Nilo
-    name: Massimo Nilo
-    org: Telecom Italia - TIM
-    street: Via Reiss Romoli, 274
-    city: Torino
-    code: 10148
-    country: Italy
-    email: massimo.nilo@telecomitalia.it
 
 normative:
   QUIC-TRANSPORT: RFC9000
@@ -534,8 +525,7 @@ protocol.
    An endpoint that advertises this transport parameter with value 1 can also
    send EFMP packets.
 
-
-# Change Log
+# Contributors
 
 TBD
 
@@ -543,3 +533,7 @@ TBD
 
 The following people directly contributed key ideas that shaped this draft:
 Kazuho Oku, Christian Huitema.
+
+# Change Log
+
+TBD

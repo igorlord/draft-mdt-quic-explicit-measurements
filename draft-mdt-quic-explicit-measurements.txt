@@ -5,7 +5,7 @@
 QUIC                                                    A. Ferrieux, Ed.
 Internet-Draft                                               Orange Labs
 Intended status: Standards Track                        I. Lubashev, Ed.
-Expires: 3 September 2026                            Akamai Technologies
+Expires: 2 January 2027                              Akamai Technologies
                                                         G. Fioccola, Ed.
                                                      Huawei Technologies
                                                            M. Ihlar, Ed.
@@ -18,7 +18,7 @@ Expires: 3 September 2026                            Akamai Technologies
                                                                 FiberCop
                                                             I. Hamchaoui
                                                              Orange Labs
-                                                            2 March 2026
+                                                             1 July 2026
 
 
 Application of Explicit Measurement Techniques for QUIC Troubleshooting
@@ -62,7 +62,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 September 2026.
+   This Internet-Draft will expire on 2 January 2027.
 
 Copyright Notice
 
@@ -98,8 +98,9 @@ Table of Contents
      5.5.  Observer Loss
    6.  Implementation
      6.1.  EFMP Packet
-     6.2.  Transport Parameter
-     6.3.  EFMP Packet Processing
+     6.2.  Design Rationale
+     6.3.  Transport Parameter
+     6.4.  EFMP Packet Processing
    7.  Ossification Considerations
    8.  Security Considerations
      8.1.  Optimistic ACK Attack
@@ -438,7 +439,39 @@ Table of Contents
    EFMP packets are always coalesced with other QUIC packets and SHOULD
    be included as the first packet in a UDP datagram.
 
-6.2.  Transport Parameter
+6.2.  Design Rationale
+
+   The selection of measurement signals in EFMP packets -- the Q bit, L
+   bit, and spin bit -- is motivated by prior academic evaluation of the
+   explicit measurement techniques defined in [EXPLICIT-MEASUREMENTS].
+
+   [QUIC-PERF-MEAS] compares candidate signaling techniques for passive
+   latency measurement under adverse network conditions.  The Valid Edge
+   Counter (VEC) [VEC], which enhances the spin bit with two additional
+   bits, yields the most robust results in these conditions, while the
+   spin bit alone is more sensitive to high packet loss rates and
+   reordering.  Additionally, [SPIN-WILD] finds that the spin bit, as
+   deployed in the Internet, often suffers from measurement errors
+   induced by application delays, which the VEC can mitigate.
+   Nevertheless, the spin bit's simplicity and lower bit overhead make
+   it more suitable for broad deployment.
+
+   Concerning loss measurements, [LOSS-BIT-EVAL] evaluates the L and Q
+   bits along with two other loss measurement bits for the passive
+   quantification of packet loss.  The study finds that the combinations
+   of Q & L is among two combinations that yield the best accuracy for
+   loss estimation across a wide range of loss rates and connection
+   durations, providing independent experimental validation for the
+   selection of Q and L in this document.
+
+   Beyond per-flow loss and latency measurements, [EFM-TOMOGRAPHY]
+   demonstrates that the path segmentation capabilities offered by the Q
+   bit together with the spin bit enable network tomography based on
+   explicit flow measurements.  The potential for network tomography
+   further motivates the specific combination of Q, L, and spin bit
+   signals selected for EFMP.
+
+6.3.  Transport Parameter
 
    A QUIC endpoint indicates that it is willing to receive EFMP packets
    by including the transport parameter:
@@ -457,7 +490,7 @@ Table of Contents
    server to consistently include the efmp_supported parameter.  This
    enables clients to utilize loss bits at their discretion.
 
-6.3.  EFMP Packet Processing
+6.4.  EFMP Packet Processing
 
    An EFMP packet is identified by the header form bit (0x80) of the
    first byte of a UDP datagram payload and the 32-bit version field
@@ -636,6 +669,29 @@ Table of Contents
               DOI 10.17487/RFC9221, March 2022,
               <https://www.rfc-editor.org/rfc/rfc9221>.
 
+   [EFM-TOMOGRAPHY]
+              Kunze, I., Sander, C., Ruhrmann, A., Rieken, N., and K.
+              Wehrle, "Using Explicit (Host-to-Network) Flow
+              Measurements for Network Tomography", ACM, Proceedings of
+              the Applied Networking Research Workshop on ZZZ pp. 54-61,
+              DOI 10.1145/3744200.3744769, July 2025,
+              <https://doi.org/10.1145/3744200.3744769>.
+
+   [LOSS-BIT-EVAL]
+              Kunze, I., Wehrle, K., and J. Rüth, "L, Q, R, and T: which
+              spin bit cousin is here to stay?", ACM, Proceedings of the
+              Applied Networking Research Workshop pp. 22-28,
+              DOI 10.1145/3472305.3472319, July 2021,
+              <https://doi.org/10.1145/3472305.3472319>.
+
+   [QUIC-PERF-MEAS]
+              Bulgarella, F., Cociglio, M., Fioccola, G., Marchetto, G.,
+              and R. Sisto, "Performance measurements of QUIC
+              communications", ACM, Proceedings of the Applied
+              Networking Research Workshop pp. 8-14,
+              DOI 10.1145/3340301.3341127, July 2019,
+              <https://doi.org/10.1145/3340301.3341127>.
+
    [RFC7713]  Mathis, M. and B. Briscoe, "Congestion Exposure (ConEx)
               Concepts, Abstract Mechanism, and Requirements", RFC 7713,
               DOI 10.17487/RFC7713, December 2015,
@@ -653,6 +709,20 @@ Table of Contents
               draft-ietf-scone-protocol-04, 14 December 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-scone-
               protocol-04>.
+
+   [SPIN-WILD]
+              Kunze, I., Sander, C., and K. Wehrle, "Does It Spin? On
+              the Adoption and Use of QUIC's Spin Bit", ACM, Proceedings
+              of the 2023 ACM on Internet Measurement Conference pp.
+              554-560, DOI 10.1145/3618257.3624844, October 2023,
+              <https://doi.org/10.1145/3618257.3624844>.
+
+   [VEC]      De Vaere, P., Bühler, T., Kühlewind, M., and B. Trammell,
+              "Three Bits Suffice: Explicit Support for Passive
+              Measurement of Internet Latency in QUIC and TCP", ACM,
+              Proceedings of the Internet Measurement Conference
+              2018 pp. 22-28, DOI 10.1145/3278532.3278535, October 2018,
+              <https://doi.org/10.1145/3278532.3278535>.
 
 Authors' Addresses
 

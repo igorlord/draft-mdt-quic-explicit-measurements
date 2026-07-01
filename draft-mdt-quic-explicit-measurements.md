@@ -79,6 +79,12 @@ informative:
   DATAGRAM: RFC9221
   SCONE: I-D.ietf-scone-protocol
 
+  QUIC-PERF-MEAS: DOI.10.1145/3340301.3341127
+  LOSS-BIT-EVAL: DOI.10.1145/3472305.3472319
+  EFM-TOMOGRAPHY: DOI.10.1145/3744200.3744769
+  VEC: DOI.10.1145/3278532.3278535
+  SPIN-WILD: DOI.10.1145/3618257.3624844
+
 --- abstract
 
 This document defines a protocol that can be used by QUIC endpoints to signal
@@ -404,6 +410,21 @@ any packet that follows. If the next packet in the datagram has a short header
 
 EFMP packets are always coalesced with other QUIC packets and SHOULD be included
 as the first packet in a UDP datagram.
+
+## Design Rationale  {#rationale}
+
+The selection of measurement signals in EFMP packets -- the Q bit, L bit, and spin bit -- is motivated by prior academic evaluation of the explicit measurement techniques defined in {{EXPLICIT-MEASUREMENTS}}.
+
+{{QUIC-PERF-MEAS}} compares candidate signaling techniques for passive latency measurement under adverse network conditions.
+The Valid Edge Counter (VEC) {{VEC}}, which enhances the spin bit with two additional bits, yields the most robust results in these conditions, while the spin bit alone is more sensitive to high packet loss rates and reordering.
+Additionally, {{SPIN-WILD}} finds that the spin bit, as deployed in the Internet, often suffers from measurement errors induced by application delays, which the VEC can mitigate.
+Nevertheless, the spin bit's simplicity and lower bit overhead make it more suitable for broad deployment.
+
+Concerning loss measurements, {{LOSS-BIT-EVAL}} evaluates the L and Q bits along with two other loss measurement bits for the passive quantification of packet loss.
+The study finds that the combinations of Q & L is among two combinations that yield the best accuracy for loss estimation across a wide range of loss rates and connection durations, providing independent experimental validation for the selection of Q and L in this document.
+
+Beyond per-flow loss and latency measurements, {{EFM-TOMOGRAPHY}} demonstrates that the path segmentation capabilities offered by the Q bit together with the spin bit enable network tomography based on explicit flow measurements.
+The potential for network tomography further motivates the specific combination of Q, L, and spin bit signals selected for EFMP.
 
 ## Transport Parameter  {#tp}
 

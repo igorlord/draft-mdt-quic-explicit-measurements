@@ -1,6 +1,6 @@
 ---
 title: Application of Explicit Measurement Techniques for QUIC Troubleshooting
-abbrev: explicit-measurements
+abbrev: quic-explicit-measurements
 docname: draft-mdt-quic-explicit-measurements-latest
 date: {DATE}
 category: std
@@ -27,28 +27,29 @@ pi:
 author:
   -
     ins: A. Ferrieux
-    role: editor
     name: Alexandre Ferrieux
     org: Orange Labs
     email: alexandre.ferrieux@orange.com
   -
     ins: I. Lubashev
-    role: editor
     name: Igor Lubashev
     org: Akamai Technologies
     email: ilubashe@akamai.com
   -
     ins: G. Fioccola
-    role: editor
     name: Giuseppe Fioccola
     org: Huawei Technologies
     email: giuseppe.fioccola@huawei.com
   -
     ins: M. Ihlar
-    role: editor
     name: Marcus Ihlar
     org: Ericsson
     email: marcus.ihlar@ericsson.com
+  -
+    ins: I. Kunze
+    name: Ike Kunze
+    org: CUJO AI
+    email: ike.kunze@cujo.com
   -
     ins: F. Bulgarella
     name: Fabio Bulgarella
@@ -58,16 +59,7 @@ author:
     ins: M. Cociglio
     name: Mauro Cociglio
     email: mauro.cociglio@outlook.com
-  -
-    ins: M. Nilo
-    name: Massimo Nilo
-    org: FiberCop
-    email: massimo.nilo@fibercop.com
-  -
-    ins: I. Hamchaoui
-    name: Isabelle Hamchaoui
-    org: Orange Labs
-    email: isabelle.hamchaoui@orange.com
+
 
 normative:
   QUIC-TRANSPORT: RFC9000
@@ -78,7 +70,6 @@ normative:
 informative:
   DATAGRAM: RFC9221
   SCONE: I-D.ietf-scone-protocol
-
   QUIC-PERF-MEAS: DOI.10.1145/3340301.3341127
   LOSS-BIT-EVAL: DOI.10.1145/3472305.3472319
   EFM-TOMOGRAPHY: DOI.10.1145/3744200.3744769
@@ -350,7 +341,7 @@ due to packets belonging to a single connection being multiplexed over several
 upstream paths with different latency characteristics.
 
 
-# Implementation
+# Explicit Flow Measurement Protocol in QUIC
 
 ## EFMP Packet
 An EFMP packet is a QUIC long header packet that follows the QUIC invariants;
@@ -413,18 +404,31 @@ as the first packet in a UDP datagram.
 
 ## Design Rationale  {#rationale}
 
-The selection of measurement signals in EFMP packets -- the Q bit, L bit, and spin bit -- is motivated by prior academic evaluation of the explicit measurement techniques defined in {{EXPLICIT-MEASUREMENTS}}.
+The selection of measurement signals in EFMP packets -- the Q bit, L bit, and spin bit --
+is motivated by prior academic evaluation of the explicit measurement techniques defined in
+{{EXPLICIT-MEASUREMENTS}}.
 
-{{QUIC-PERF-MEAS}} compares candidate signaling techniques for passive latency measurement under adverse network conditions.
-The Valid Edge Counter (VEC) {{VEC}}, which enhances the spin bit with two additional bits, yields the most robust results in these conditions, while the spin bit alone is more sensitive to high packet loss rates and reordering.
-Additionally, {{SPIN-WILD}} finds that the spin bit, as deployed in the Internet, often suffers from measurement errors induced by application delays, which the VEC can mitigate.
-Nevertheless, the spin bit's simplicity and lower bit overhead make it more suitable for broad deployment.
+{{QUIC-PERF-MEAS}} compares candidate signaling techniques for passive latency measurement
+under adverse network conditions.
+The Valid Edge Counter (VEC) {{VEC}}, which enhances the spin bit with two additional bits,
+yields the most robust results in these conditions, while the spin bit alone is more sensitive
+to high packet loss rates and reordering.
+Additionally, {{SPIN-WILD}} finds that the spin bit, as deployed in the Internet, often suffers
+from measurement errors induced by application delays, which the VEC can mitigate.
+Nevertheless, the spin bit's simplicity and lower bit overhead make it more suitable
+for broad deployment.
 
-Concerning loss measurements, {{LOSS-BIT-EVAL}} evaluates the L and Q bits along with two other loss measurement bits for the passive quantification of packet loss.
-The study finds that the combinations of Q & L is among two combinations that yield the best accuracy for loss estimation across a wide range of loss rates and connection durations, providing independent experimental validation for the selection of Q and L in this document.
+Concerning loss measurements, {{LOSS-BIT-EVAL}} evaluates the L and Q bits along with
+two other loss measurement bits for the passive quantification of packet loss.
+The study finds that the combinations of Q & L is among two combinations that yield
+the best accuracy for loss estimation across a wide range of loss rates and connection durations,
+providing independent experimental validation for the selection of Q and L in this document.
 
-Beyond per-flow loss and latency measurements, {{EFM-TOMOGRAPHY}} demonstrates that the path segmentation capabilities offered by the Q bit together with the spin bit enable network tomography based on explicit flow measurements.
-The potential for network tomography further motivates the specific combination of Q, L, and spin bit signals selected for EFMP.
+Beyond per-flow loss and latency measurements, {{EFM-TOMOGRAPHY}} demonstrates that the
+path segmentation capabilities offered by the Q bit together with the spin bit enable
+network tomography based on explicit flow measurements.
+The potential for network tomography further motivates the specific combination of
+Q, L, and spin bit signals selected for EFMP.
 
 ## Transport Parameter  {#tp}
 
@@ -541,20 +545,21 @@ Value: 0xTBD (if this document is approved)
 Parameter Name: efmp_supported
 
 Specification: Indicates that the endpoint supports the explicit flow measurement
-protocol.
-   An endpoint that advertises this transport parameter can EFMP packets.
-   An endpoint that advertises this transport parameter with value 1 can also
-   send EFMP packets.
+protocol. An endpoint that advertises this transport parameter can handle EFMP
+packets. An endpoint that advertises this transport parameter with value 1 can also
+send EFMP packets.
 
 # Contributors
 
-TBD
+    Massimo Nilo
+    FiberCop
+    email: massimo.nilo@fibercop.com
+
+    Isabelle Hamchaoui
+    Orange Labs
+    email: isabelle.hamchaoui@orange.com
 
 # Acknowledgments
 
 The following people directly contributed key ideas that shaped this draft:
 Kazuho Oku, Christian Huitema.
-
-# Change Log
-
-TBD

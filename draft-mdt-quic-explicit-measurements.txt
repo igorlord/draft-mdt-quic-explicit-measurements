@@ -2,23 +2,20 @@
 
 
 
-QUIC                                                    A. Ferrieux, Ed.
+QUIC                                                         A. Ferrieux
 Internet-Draft                                               Orange Labs
-Intended status: Standards Track                        I. Lubashev, Ed.
-Expires: 2 January 2027                              Akamai Technologies
-                                                        G. Fioccola, Ed.
+Intended status: Standards Track                             I. Lubashev
+Expires: 7 January 2027                              Akamai Technologies
+                                                             G. Fioccola
                                                      Huawei Technologies
-                                                           M. Ihlar, Ed.
+                                                                M. Ihlar
                                                                 Ericsson
+                                                                I. Kunze
+                                                                 CUJO AI
                                                            F. Bulgarella
                                                     Telecom Italia - TIM
                                                              M. Cociglio
-                                                                        
-                                                                 M. Nilo
-                                                                FiberCop
-                                                            I. Hamchaoui
-                                                             Orange Labs
-                                                             1 July 2026
+                                                             6 July 2026
 
 
 Application of Explicit Measurement Techniques for QUIC Troubleshooting
@@ -62,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 January 2027.
+   This Internet-Draft will expire on 7 January 2027.
 
 Copyright Notice
 
@@ -96,7 +93,7 @@ Table of Contents
      5.3.  Correlating End-to-End and Upstream Loss
      5.4.  Downstream Loss
      5.5.  Observer Loss
-   6.  Implementation
+   6.  Explicit Flow Measurement Protocol in QUIC
      6.1.  EFMP Packet
      6.2.  Design Rationale
      6.3.  Transport Parameter
@@ -108,10 +105,9 @@ Table of Contents
    10. IANA Considerations
    11. Contributors
    12. Acknowledgments
-   13. Change Log
-   14. References
-     14.1.  Normative References
-     14.2.  Informative References
+   13. References
+     13.1.  Normative References
+     13.2.  Informative References
    Authors' Addresses
 
 1.  Introduction
@@ -381,7 +377,7 @@ Table of Contents
    belonging to a single connection being multiplexed over several
    upstream paths with different latency characteristics.
 
-6.  Implementation
+6.  Explicit Flow Measurement Protocol in QUIC
 
 6.1.  EFMP Packet
 
@@ -595,25 +591,27 @@ Table of Contents
 
    Specification: Indicates that the endpoint supports the explicit flow
    measurement protocol.  An endpoint that advertises this transport
-   parameter can EFMP packets.  An endpoint that advertises this
+   parameter can handle EFMP packets.  An endpoint that advertises this
    transport parameter with value 1 can also send EFMP packets.
 
 11.  Contributors
 
-   TBD
+   Massimo Nilo
+   FiberCop
+   email: massimo.nilo@fibercop.com
+
+   Isabelle Hamchaoui
+   Orange Labs
+   email: isabelle.hamchaoui@orange.com
 
 12.  Acknowledgments
 
    The following people directly contributed key ideas that shaped this
    draft: Kazuho Oku, Christian Huitema.
 
-13.  Change Log
+13.  References
 
-   TBD
-
-14.  References
-
-14.1.  Normative References
+13.1.  Normative References
 
    [AltMark]  Fioccola, G., Ed., Cociglio, M., Mirsky, G., Mizrahi, T.,
               and T. Zhou, "Alternate-Marking Method", RFC 9341,
@@ -662,7 +660,7 @@ Table of Contents
               DOI 10.17487/RFC9065, July 2021,
               <https://www.rfc-editor.org/rfc/rfc9065>.
 
-14.2.  Informative References
+13.2.  Informative References
 
    [DATAGRAM] Pauly, T., Kinnear, E., and D. Schinazi, "An Unreliable
               Datagram Extension to QUIC", RFC 9221,
@@ -726,24 +724,29 @@ Table of Contents
 
 Authors' Addresses
 
-   Alexandre Ferrieux (editor)
+   Alexandre Ferrieux
    Orange Labs
    Email: alexandre.ferrieux@orange.com
 
 
-   Igor Lubashev (editor)
+   Igor Lubashev
    Akamai Technologies
    Email: ilubashe@akamai.com
 
 
-   Giuseppe Fioccola (editor)
+   Giuseppe Fioccola
    Huawei Technologies
    Email: giuseppe.fioccola@huawei.com
 
 
-   Marcus Ihlar (editor)
+   Marcus Ihlar
    Ericsson
    Email: marcus.ihlar@ericsson.com
+
+
+   Ike Kunze
+   CUJO AI
+   Email: ike.kunze@cujo.com
 
 
    Fabio Bulgarella
@@ -753,13 +756,3 @@ Authors' Addresses
 
    Mauro Cociglio
    Email: mauro.cociglio@outlook.com
-
-
-   Massimo Nilo
-   FiberCop
-   Email: massimo.nilo@fibercop.com
-
-
-   Isabelle Hamchaoui
-   Orange Labs
-   Email: isabelle.hamchaoui@orange.com
